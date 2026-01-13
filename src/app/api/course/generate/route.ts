@@ -31,12 +31,10 @@ async function searchMultipleNaver(query: string, display = 10) {
 function extractRegionFromMessage(message: string | undefined): string | null {
   if (!message) return null;
 
-  // 1. 구 이름 직접 매칭 (예: "강남구", "마포")
   for (const region of Object.keys(famousgu)) {
     if (message.includes(region)) return region;
   }
 
-  // 2. hotspot 매칭 (예: "홍대", "신촌", "명동")
   for (const [region, hotspots] of Object.entries(famousgu)) {
     const hotspotList = hotspots.split(", ");
     for (const hotspot of hotspotList) {

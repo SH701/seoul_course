@@ -51,11 +51,10 @@ export type Stars = {
 export type Course = {
   id: string;
   userId: string;
-  personaId: string | null;
   title: string;
   vibe: string | null;
   route: string | null;
   totalDuration: string | null;
-  spots: any; // Json
+  spots: any;
   created_at: Date;
 };
