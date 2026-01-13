@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📍 서울코스 (Seoul Course)
 
-## Getting Started
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 🧩 서비스 소개
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**서울코스**는  
+“오늘 어디 가지?”라는 고민을 없애기 위해 만들어진  
+**AI 기반 서울 나들이 코스 추천 & 공유 서비스**입니다.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+사용자는 AI 채팅을 통해 상황과 취향에 맞는 코스를 추천받고,  
+추천된 코스를 저장하거나 직접 만들고,  
+자신의 코스를 게시물로 공유할 수 있습니다.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+### 🚀 핵심 기능
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### 1. 🤖 AI 채팅 기반 코스 추천
+- 사용자의 상황 입력 (예: “비 오는 날, 여자친구랑 조용한 데 가고 싶어”)
+- AI가 장소를 조합하여 **맞춤 코스 추천**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### 2. 🗺 코스 생성
+- 추천받은 코스를 수정하거나 직접 커스텀 코스 생성
 
-## Deploy on Vercel
+#### 3. ❤️ 장소 및 코스 저장
+- 마음에 드는 장소/코스를 저장하여 나중에 다시 확인 가능
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### 4. 📝 게시물 CRUD
+- 게시물 조회 / 수정 / 삭제 기능 제공
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+
+### 🛠 기술 스택
+
+- **Frontend**: Next.js, React, TypeScript, Tailwind CSS  
+- **Backend**: Prisma,
+- **AI**: OpenAI API  
+- **DB**: PostgreSql  
+- **Auth**: Clerk  
+
+---
+
+
+### 📷 스크린샷
+> 추후 추가 예정
