@@ -19,7 +19,7 @@ export default async function Posts({ searchParams }: Props) {
 
   return (
     <>
-      <div className="relative flex items-start justify-center min-h-screen overflow-hidden transition-colors duration-500 bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 pt-28">
+      <div className="relative flex items-start justify-center min-h-screen overflow-hidden transition-colors duration-500 bg-linear-to-br from-purple-50 via-pink-50 to-blue-50 pt-28">
         <Header />
         <div className=" flex flex-col w-[80%] h-full mx-auto">
           <AddPost />

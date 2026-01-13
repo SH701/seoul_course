@@ -34,7 +34,7 @@ export default function Top() {
           </p>
         </div>
 
-        <div className="flex items-center flex-shrink-0">
+        <div className="flex items-center shrink-0">
           <button
             onClick={() => setIsModalOpen(true)}
             className="
@@ -47,7 +47,7 @@ export default function Top() {
               backdrop-blur-md shadow-md
               hover:shadow-xl hover:scale-[1.03]
               active:scale-95
-              sm:bg-gradient-to-r sm:from-purple-500 sm:to-pink-500 sm:text-white sm:border-none sm:mr-3
+              sm:bg-linear-to-r sm:from-purple-500 sm:to-pink-500 sm:text-white sm:border-none sm:mr-3
               sm:hover:shadow-lg sm:hover:brightness-110
             "
           >

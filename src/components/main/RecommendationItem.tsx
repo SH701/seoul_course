@@ -94,7 +94,7 @@ export default function RecommendationItem({
       onClick={onClick}
     >
       <div
-        className="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0"
+        className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0"
         style={{ backgroundColor: `${color}20` }}
       >
         <IconComponent className="w-8 h-8" style={{ color }} />

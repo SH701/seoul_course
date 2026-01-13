@@ -12,7 +12,7 @@ export default function Page() {
   return (
     <main className="relative min-h-screen  overflow-hidden">
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-[40%] left-[-10%] sm:top-60 sm:left-10 w-[300px] sm:w-[400px] lg:w-[480px] opacity-30 blur-sm animate-blob">
+        <div className="absolute top-[40%] left-[-10%] sm:top-60 sm:left-10 w-75-[400px] lg:w-120city-30 blur-sm animate-blob">
           <Image
             src="/login/namsan.png"
             alt="남산"
@@ -21,7 +21,7 @@ export default function Page() {
             className="rounded-full"
           />
         </div>
-        <div className="absolute top-10 right-0 sm:top-20 sm:right-20 w-[250px] sm:w-[400px] lg:w-[480px] opacity-30 blur-sm animate-blob animation-delay-2000">
+        <div className="absolute top-10 right-0 sm:top-20 sm:right-20 w-62.5:w-[400px] lg:w-120 opacity-30 blur-sm animate-blob animation-delay-2000">
           <Image
             src="/login/palace.png"
             alt="궁"
@@ -30,7 +30,7 @@ export default function Page() {
             className="rounded-full"
           />
         </div>
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[250px] sm:w-[400px] lg:w-[480px] opacity-30 blur-sm animate-blob animation-delay-1000">
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-62.5 sm:w-100 lg:w-120 opacity-30 blur-sm animate-blob animation-delay-1000">
           <Image
             src="/login/ddp.png"
             alt="DDP"
@@ -72,7 +72,7 @@ export default function Page() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-4xl sm:text-5xl lg:text-7xl font-extrabold mb-6 bg-gradient-to-r from-pink-400 via-purple-500 to-blue-600 bg-clip-text text-transparent leading-tight"
+          className="text-4xl sm:text-5xl lg:text-7xl font-extrabold mb-6 bg-linear-to-r from-pink-400 via-purple-500 to-blue-600 bg-clip-text text-transparent leading-tight"
         >
           서울 속 나만의 하루
         </motion.h2>
@@ -96,12 +96,12 @@ export default function Page() {
             className="flex flex-col sm:flex-row gap-3"
           >
             <SignUpButton mode="modal" forceRedirectUrl="/main">
-              <button className="w-full sm:w-auto px-8 sm:px-10 py-4 rounded-full font-semibold text-lg bg-gradient-to-r from-pink-500 via-purple-500 to-blue-600 text-white shadow-lg hover:scale-105 transform transition-transform">
+              <button className="w-full sm:w-auto px-8 sm:px-10 py-4 rounded-full font-semibold text-lg bg-linear-to-r from-pink-500 via-purple-500 to-blue-600 text-white shadow-lg hover:scale-105 transform transition-transform">
                 지금 시작하기
               </button>
             </SignUpButton>
             <button
-              className="w-full sm:w-auto px-8 sm:px-10 py-4 rounded-full font-semibold text-lg bg-gradient-to-r from-pink-500 via-purple-500 to-blue-600 text-white shadow-lg hover:scale-105 transform transition-transform"
+              className="w-full sm:w-auto px-8 sm:px-10 py-4 rounded-full font-semibold text-lg bg-linear-to-r from-pink-500 via-purple-500 to-blue-600 text-white shadow-lg hover:scale-105 transform transition-transform"
               onClick={() => router.push("/main")}
             >
               로그인 없이 시작하기
