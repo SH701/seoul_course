@@ -1,9 +1,9 @@
 import {
-  NaverPlace,
-  PlaceInfo,
   Recommendation,
   RecommendationResponse,
-} from "@/types/ai";
+  NaverPlace,
+  PlaceInfo,
+} from "@/types";
 import OpenAI from "openai";
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
@@ -62,7 +62,6 @@ export async function generateGuRecommendations(
       return [];
     }
 
-    // 장소 목록을 번호와 함께 포맷팅
     const cafeList = cafes.map((c) => c.name).join(", ") || "없음";
     const restaurantList = restaurants.map((r) => r.name).join(", ") || "없음";
     const attractionList = attractions.map((a) => a.name).join(", ") || "없음";
