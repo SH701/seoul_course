@@ -29,3 +29,6 @@ export interface RecommendationListProps {
   guName: string;
   onItemClick: (item: Recommendation) => void;
 }
+export interface RecommendationResponse {
+  recommendations: Recommendation[];
+}

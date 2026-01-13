@@ -1,4 +1,4 @@
-import { usePlacePhoto } from "@/hooks/queries/usePlacePhoto";
+import { usePlacePhoto } from "@/hooks/queries";
 import { Clock, ImageIcon, MapPin } from "lucide-react";
 
 export default function MainRecommendation({ place }: { place: any }) {
@@ -6,7 +6,7 @@ export default function MainRecommendation({ place }: { place: any }) {
   const { data: mainPhoto } = usePlacePhoto(mainTitle);
 
   return (
-    <div className="bg-gradient-to-br from-purple-100 to-pink-100 rounded-3xl sm:p-6 mb-6 shadow-lg">
+    <div className="bg-linear-to-br from-purple-100 to-pink-100 rounded-3xl sm:p-6 mb-6 shadow-lg">
       <div className="flex flex-col md:flex-row gap-6 items-center">
         <div className="w-full md:w-1/2 overflow-hidden rounded-2xl shadow-lg">
           {mainPhoto ? (
@@ -16,7 +16,7 @@ export default function MainRecommendation({ place }: { place: any }) {
               className="w-full h-80 object-cover"
             />
           ) : (
-            <div className="w-full h-80 bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center">
+            <div className="w-full h-80 bg-linear-to-br from-purple-100 to-pink-100 flex items-center justify-center">
               <ImageIcon className="w-12 h-12 text-purple-400" />
             </div>
           )}

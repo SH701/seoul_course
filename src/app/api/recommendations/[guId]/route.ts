@@ -1,11 +1,8 @@
 import { guData } from "@/data/gudata";
-import { generateGuRecommendations } from "@/lib/openai";
+import { generateGuRecommendations } from "@/lib";
 import { NextResponse } from "next/server";
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ guId: string }> }
-) {
+export async function GET({ params }: { params: Promise<{ guId: string }> }) {
   try {
     const { guId } = await params;
     const gu = guData.find((g) => g.id === guId);

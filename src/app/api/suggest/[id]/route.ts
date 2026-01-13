@@ -1,16 +1,7 @@
 import { guData } from "@/data/gudata";
-import { searchNaverPlaces } from "@/lib/naver";
+import { searchNaverPlaces } from "@/lib";
+import { NaverPlace } from "@/types";
 import { NextResponse } from "next/server";
-
-
-
-interface NaverPlace {
-  title: string;
-  address: string;
-  category: string;
-  roadAddress?: string;
-  link?: string;
-}
 
 interface EnrichedPlace extends NaverPlace {
   keyword: string;

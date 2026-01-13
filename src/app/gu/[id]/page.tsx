@@ -1,6 +1,6 @@
 import { guData } from "@/data/gudata";
 import { notFound } from "next/navigation";
-import GuDetail from "@/components/gu/GuDetail";
+import { GuDetail } from "@/components/gu";
 
 export default async function GuPage({
   params,

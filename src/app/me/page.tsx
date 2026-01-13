@@ -1,13 +1,10 @@
 import { db } from "@/lib/db";
-import { Star, FolderHeart, Route } from "lucide-react";
+import { FolderHeart } from "lucide-react";
 import { currentUser } from "@clerk/nextjs/server";
+import { Course, Stars } from "@/types";
 
-import { Course, Stars } from "@/types/prisma";
-
-import BackButton from "@/components/ui/button/BackButton";
-import CourseItem from "@/components/me/CourseItem";
-import MyStar from "@/components/me/MyStar";
-import MyCourse from "@/components/me/MyCourse";
+import { BackButton } from "@/components/ui/button";
+import { MyStar, MyCourse } from "@/components/me";
 
 export default async function Me() {
   const user = await currentUser();

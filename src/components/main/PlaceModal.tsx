@@ -1,6 +1,6 @@
 "use client";
 
-import { Recommendation } from "@/types/recommandation";
+import { Recommendation } from "@/types";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, MapPin, ExternalLink, Clock } from "lucide-react";
 

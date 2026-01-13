@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
-import { personas } from "@/data/persona";
-
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 async function searchNaver(query: string, display = 5) {
@@ -28,8 +26,6 @@ async function searchNaver(query: string, display = 5) {
 export async function POST(req: Request) {
   try {
     const { message, personaId } = await req.json();
-
-    const persona = personas.find((p) => p.id === personaId) ?? personas[0];
 
     const keywordRes = await openai.chat.completions.create({
       model: "gpt-4o-mini",
@@ -60,8 +56,6 @@ export async function POST(req: Request) {
       return NextResponse.json({
         reply:
           "죄송해요, 해당 지역에서 장소를 찾지 못했어요. 다른 지역이나 카테고리로 다시 검색해볼까요?",
-        persona: persona.name,
-        imagePath: persona.image,
       });
     }
 
@@ -80,7 +74,7 @@ export async function POST(req: Request) {
       messages: [
         {
           role: "system",
-          content: `${persona.prompt}
+          content: `${prompt}
 
 **중요 규칙:**
 1. 아래 검색된 장소 목록에서만 선택해서 추천할 것
@@ -106,8 +100,6 @@ ${placeList}
 
     return NextResponse.json({
       reply,
-      persona: persona.name,
-      imagePath: persona.image,
     });
   } catch (error) {
     console.error("❌ Error:", error);

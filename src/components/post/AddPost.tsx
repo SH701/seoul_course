@@ -10,7 +10,7 @@ function SubmitButton() {
       <button
         type="submit"
         disabled={pending}
-        className=" w-[100px] bg-purple-500 hover:bg-purple-600 text-white font-medium border-none py-1
+        className=" w-25 purple-500 hover:bg-purple-600 text-white font-medium border-none py-1
         rounded-md text-center  transition-colors cursor-pointer disabled:cursor-not-allowed"
       >
         작성하기

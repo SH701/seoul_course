@@ -1,4 +1,4 @@
-import { Stars } from "@/types/star";
+import { Stars } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 
 export function useAddStar() {

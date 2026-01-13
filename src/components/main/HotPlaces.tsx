@@ -1,7 +1,7 @@
 "use client";
 
-import { TrendingUp, ImageIcon } from "lucide-react";
-import { useHotPlaces } from "@/hooks/queries/useHotPlaces";
+import { TrendingUp } from "lucide-react";
+import { useHotPlaces } from "@/hooks/queries";
 
 interface Place {
   rank: number;

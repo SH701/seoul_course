@@ -2,8 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 import { guData } from "@/data/gudata";
-import { Recommendation } from "@/types/recommandation";
-
+import { Recommendation } from "@/types";
 
 interface AppState {
   selectedGu: (typeof guData)[number] | null;

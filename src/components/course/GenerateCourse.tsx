@@ -4,9 +4,8 @@ import { useState } from "react";
 import { X, Clock, MapPin, Calendar, LogIn, Lock } from "lucide-react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
-import { useGuest } from "@/hooks/queries/useGuest";
-import { useCourse } from "@/hooks/mutation/useCourse";
-import { useSaveCourse } from "@/hooks/mutation/useSaveCourse";
+import { useCourse, useSaveCourse } from "@/hooks/mutation";
+import { useGuest } from "@/hooks/queries";
 
 interface GenerateCourseProps {
   isOpen: boolean;

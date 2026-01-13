@@ -1,9 +1,7 @@
 "use client";
 
-import { useAddStar } from "@/hooks/mutation/useAddStar";
-import { useCheckStar } from "@/hooks/mutation/useCheckStar";
-import { useDeleteStar } from "@/hooks/mutation/useDeleteStar";
-import { RecommendationItemProps } from "@/types/recommandation";
+import { useDeleteStar, useCheckStar, useAddStar } from "@/hooks/mutation";
+import { RecommendationItemProps } from "@/types";
 import {
   Coffee,
   Camera,
@@ -12,7 +10,7 @@ import {
   Utensils,
   Star,
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const iconMap: Record<string, any> = {
   Coffee,
@@ -43,12 +41,12 @@ export default function RecommendationItem({
         {
           placeId: item.placeId,
           title: item.title,
-          desc: item.desc || "",
+          desc: item.desc || null,
           icon: item.icon,
           time: item.time,
-          price: item.price || "",
+          price: item.price || null,
           address: item.address,
-        },
+        } as any,
         {
           onSuccess: () => setSaved(false),
         }
@@ -58,12 +56,12 @@ export default function RecommendationItem({
         {
           placeId: item.placeId,
           title: item.title,
-          desc: item.desc || "",
+          desc: item.desc || null,
           icon: item.icon,
           time: item.time,
-          price: item.price || "",
+          price: item.price || null,
           address: item.address,
-        },
+        } as any,
         {
           onSuccess: () => setSaved(true),
         }

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import PostDate from "@/components/post/PostDate";
+import { PostDate } from "@/components/post";
 
 interface CommentItemProps {
   comment: any;
@@ -23,7 +23,10 @@ export default function CommentItem({ comment, postUser }: CommentItemProps) {
       <div className="flex-1">
         <div className="flex items-center justify-between">
           <p className="font-semibold text-gray-800">
-            {postUser?.username ?? postUser?.nickname ?? postUser?.email ?? null}
+            {postUser?.username ??
+              postUser?.nickname ??
+              postUser?.email ??
+              null}
           </p>
           <PostDate date={comment.created_at} />
         </div>

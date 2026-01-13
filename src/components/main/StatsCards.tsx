@@ -1,4 +1,3 @@
-// components/main/StatsCards.tsx
 "use client";
 
 import { Star, Flame, MapPin, Sun } from "lucide-react";

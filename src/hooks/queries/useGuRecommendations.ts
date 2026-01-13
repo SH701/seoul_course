@@ -1,7 +1,5 @@
-"use client";
-
 import { useQuery } from "@tanstack/react-query";
-import { getMsUntilMidnight } from "@/lib/date";
+import { getMsUntilMidnight } from "@/lib";
 
 export function useGuRecommendations(id: string, category: string) {
   return useQuery({

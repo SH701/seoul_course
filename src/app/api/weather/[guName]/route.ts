@@ -1,10 +1,7 @@
-import { Weather } from "@/lib/weather";
+import { Weather } from "@/lib";
 import { NextResponse } from "next/server";
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ guName: string }> }
-) {
+export async function GET({ params }: { params: Promise<{ guName: string }> }) {
   try {
     const { guName: encodedGuName } = await params;
     const guName = decodeURIComponent(encodedGuName);

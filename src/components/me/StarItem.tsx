@@ -1,6 +1,5 @@
 import { Stars } from "@/types/prisma";
-import StarDelete from "@/components/ui/button/StarDelete";
-import MoveNaver from "@/components/ui/button/MoveNaver";
+import { StarDelete, MoveNaver } from "@/components/ui/button";
 
 interface StarItemProps {
   star: Stars;

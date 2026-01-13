@@ -1,0 +1,11 @@
+export { default as AddPost } from "@/components/post/AddPost";
+export { default as DeletePost } from "@/components/post/DeletePost";
+export { default as Header } from "@/components/post/Header";
+export { default as Pagination } from "@/components/post/Pagination";
+export { default as PostDate } from "@/components/post/PostDate";
+export { default as PostItem } from "@/components/post/PostItem";
+export { default as PostList } from "@/components/post/PostList";
+export { default as CommentForm } from "@/components/post/detail/CommentForm";
+export { default as CommentItem } from "@/components/post/detail/CommentItem";
+export { default as CommentList } from "@/components/post/detail/CommentList";
+export { default as PostContent } from "@/components/post/detail/PostContent";

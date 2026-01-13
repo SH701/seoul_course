@@ -1,6 +1,5 @@
 import Image from "next/image";
-import PostDate from "@/components/post/PostDate";
-import DeletePost from "@/components/post/DeletePost";
+import { PostDate, DeletePost } from "@/components/post";
 
 interface PostContentProps {
   post: any;
@@ -45,7 +44,7 @@ export default function PostContent({ post, likeCount }: PostContentProps) {
             alt="게시글 이미지"
             width={700}
             height={500}
-            className="rounded-xl border object-cover max-h-[450px]"
+            className="rounded-xl border object-cover max-h-112.5"
           />
         </div>
       )}

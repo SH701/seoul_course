@@ -1,4 +1,4 @@
-import { Course } from "@/types/prisma";
+import { Course } from "@/types";
 import CourseItem from "./CourseItem";
 import { Route } from "lucide-react";
 

@@ -1,6 +1,6 @@
 import { Star } from "lucide-react";
 import StarItem from "./StarItem";
-import { Stars } from "@/types/prisma";
+import { Stars } from "@/types";
 
 interface MyStarProps {
   stars: Stars[];

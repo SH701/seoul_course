@@ -1,4 +1,4 @@
-import { usePlacePhoto } from "@/hooks/queries/usePlacePhoto";
+import { usePlacePhoto } from "@/hooks/queries";
 import { ImageIcon } from "lucide-react";
 
 export default function SubRecommendationCard({ place }: { place: any }) {
@@ -10,7 +10,7 @@ export default function SubRecommendationCard({ place }: { place: any }) {
       {photo ? (
         <img src={photo} alt={title} className="w-full h-48 object-cover" />
       ) : (
-        <div className="w-full h-48 bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center">
+        <div className="w-full h-48 bg-linear-to-br from-purple-100 to-pink-100 flex items-center justify-center">
           <ImageIcon className="w-10 h-10 text-purple-400" />
         </div>
       )}

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
-import {db} from "@/lib/db";
+import { db } from "@/lib";
 
 export async function POST(req: Request) {
   try {
@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     const saved = await db.course.create({
       data: {
         userId,
-        personaId,
+
         title,
         vibe,
         spots,

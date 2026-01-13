@@ -3,7 +3,7 @@ import { BookOpenText, Menu, MapPinPlus } from "lucide-react";
 import { UserButton } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import GenerateCourse from "@/components/course/GenerateCourse";
+import { GenerateCourse } from "@/components/course";
 import { useAppStore } from "@/store/useAppStore";
 
 export default function Top() {

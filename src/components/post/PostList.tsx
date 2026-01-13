@@ -1,4 +1,4 @@
-import PostItem from "@/components/post/PostItem";
+import { PostItem } from "@/components/post";
 
 interface PostListProps {
   posts: any[];

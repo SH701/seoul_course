@@ -10,9 +10,7 @@ import {
   getComments,
   addComment,
 } from "@/app/post/[id]/actions";
-import CommentForm from "@/components/post/detail/CommentForm";
-import PostContent from "@/components/post/detail/PostContent";
-import CommentList from "@/components/post/detail/CommentList";
+import { CommentForm, PostContent, CommentList } from "@/components/post";
 
 export default function PostDetail() {
   const params = useParams();

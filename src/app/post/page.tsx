@@ -1,9 +1,6 @@
 import { getAllPosts } from "./actions";
-import AddPost from "@/components/post/AddPost";
+import { AddPost, Header, PostList, Pagination } from "@/components/post";
 import { currentUser } from "@clerk/nextjs/server";
-import Header from "@/components/post/Header";
-import PostList from "@/components/post/PostList";
-import Pagination from "@/components/post/Pagination";
 
 interface Props {
   searchParams: Promise<{ page?: string }>;

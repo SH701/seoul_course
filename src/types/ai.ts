@@ -2,6 +2,8 @@ export interface NaverPlace {
   title: string;
   address: string;
   category: string;
+  roadAddress?: string;
+  link?: string;
 }
 
 export interface PlaceInfo {
@@ -10,13 +12,3 @@ export interface PlaceInfo {
   category: string;
 }
 
-export interface Recommendation {
-  icon: string;
-  title: string;
-  desc: string;
-  time: string;
-}
-
-export interface RecommendationResponse {
-  recommendations: Recommendation[];
-}

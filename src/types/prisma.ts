@@ -1,5 +1,3 @@
-// schema.prisma 기반 수동 타입 정의
-
 export type User = {
   clerkId: string;
   photo: string | null;

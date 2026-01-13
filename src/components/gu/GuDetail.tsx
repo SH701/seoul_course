@@ -2,11 +2,11 @@
 
 import { MapPin, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import BackButton from "@/components/ui/button/BackButton";
+import { BackButton } from "@/components/ui/button/";
 import { Key, useState } from "react";
-import { useGuRecommendations } from "@/hooks/queries/useGuRecommendations";
-import MainRecommendation from "@/components/gu/recommend/MainRecommend";
-import SubRecommendationCard from "@/components/gu/recommend/SubRecommend";
+import { useGuRecommendations } from "@/hooks/queries";
+import MainRecommendation from "./recommend/MainRecommend";
+import SubRecommendationCard from "./recommend/SubRecommend";
 
 type CategoryType = "cafe" | "restaurant" | "attraction";
 
@@ -44,7 +44,7 @@ export default function GuDetail({ id, guName }: GuDetailClientProps) {
 
   if (isLoading)
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-linear-to-br from-blue-50 to-indigo-50">
         <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-indigo-600 mb-4"></div>
         <div className="text-xl font-medium text-gray-700">
           추천 장소를 불러오는 중...
@@ -54,7 +54,7 @@ export default function GuDetail({ id, guName }: GuDetailClientProps) {
 
   if (error)
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 to-pink-50">
+      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-red-50 to-pink-50">
         <div className="bg-white rounded-lg shadow-lg p-8 max-w-md text-center">
           <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-gray-800 mb-2">오류 발생</h2>
@@ -71,7 +71,7 @@ export default function GuDetail({ id, guName }: GuDetailClientProps) {
 
   if (!recommendations.length)
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
+      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-gray-50 to-gray-100">
         <div className="bg-white rounded-lg shadow-lg p-8 max-w-md text-center">
           <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-gray-800 mb-2">
@@ -85,7 +85,7 @@ export default function GuDetail({ id, guName }: GuDetailClientProps) {
   const sub = recommendations.slice(1, 4);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 py-8 px-4">
+    <main className="min-h-screen bg-linear-to-br from-purple-50 via-pink-50 to-blue-50 py-8 px-4">
       <div className="max-w-6xl mx-auto">
         {/* 카테고리 */}
         <div className="flex gap-6 mb-10 justify-center items-center">
@@ -102,7 +102,7 @@ export default function GuDetail({ id, guName }: GuDetailClientProps) {
               onClick={() => setActiveCategory(cat)}
               className={`p-3 rounded-full font-medium text-sm transition-all ${
                 activeCategory === cat
-                  ? `bg-gradient-to-r ${categoryInfo[cat].color} text-white shadow-lg`
+                  ? `bg-linear-to-r ${categoryInfo[cat].color} text-white shadow-lg`
                   : "bg-white text-purple-600 border-2 border-purple-200"
               }`}
             >

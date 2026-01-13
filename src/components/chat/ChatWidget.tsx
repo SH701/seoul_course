@@ -2,10 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { MessageCircle, ArrowUp } from "lucide-react";
-import Image from "next/image";
 
-import { personas } from "@/lib/persona";
-import { useChat } from "@/hooks/mutation/useChat";
+import { useChat } from "@/hooks/mutation";
 
 interface Message {
   role: "user" | "ai";
