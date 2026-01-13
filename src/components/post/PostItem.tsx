@@ -1,9 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import PostDate from "@/components/post/PostDate";
+import PostCount from "./PostCount";
 
 interface PostItemProps {
-  post: any;
+  post: any & {
+    _count?: {
+      comments: number;
+    };
+  };
   userImageUrl?: string;
 }
 
@@ -11,7 +16,7 @@ export default function PostItem({ post, userImageUrl }: PostItemProps) {
   return (
     <Link
       href={`/post/${post.id}`}
-      className="block py-5 hover:bg-purple-50/40 px-6  transition-all duration-200"
+      className="block p-6 bg-white rounded-xl border border-gray-200 hover:shadow-md hover:border-purple-300 transition-all duration-200 relative"
     >
       <div className="flex gap-4">
         {post.user.photo ? (
@@ -56,6 +61,9 @@ export default function PostItem({ post, userImageUrl }: PostItemProps) {
               />
             </div>
           )}
+          <div className="absolute right-4 bottom-4">
+            <PostCount count={post._count?.comments || 0} />
+          </div>
         </div>
       </div>
     </Link>

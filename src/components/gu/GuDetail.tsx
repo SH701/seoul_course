@@ -69,32 +69,18 @@ export default function GuDetail({ id, guName }: GuDetailClientProps) {
       </div>
     );
 
-  if (!recommendations.length)
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-gray-50 to-gray-100">
-        <div className="bg-white rounded-lg shadow-lg p-8 max-w-md text-center">
-          <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">
-            추천 장소가 없습니다
-          </h2>
-        </div>
-      </div>
-    );
-
   const main = recommendations[0];
   const sub = recommendations.slice(1, 4);
+  const push = () => {
+    router.push("/main");
+  };
 
   return (
     <main className="min-h-screen bg-linear-to-br from-purple-50 via-pink-50 to-blue-50 py-8 px-4">
       <div className="max-w-6xl mx-auto">
         {/* 카테고리 */}
         <div className="flex gap-6 mb-10 justify-center items-center">
-          <button
-            onClick={() => router.push("/main")}
-            className="absolute left-8"
-          >
-            <BackButton />
-          </button>
+          <BackButton onClick={push} className="absolute left-8" />
 
           {(Object.keys(categoryInfo) as CategoryType[]).map((cat) => (
             <button
@@ -103,7 +89,7 @@ export default function GuDetail({ id, guName }: GuDetailClientProps) {
               className={`p-3 rounded-full font-medium text-sm transition-all ${
                 activeCategory === cat
                   ? `bg-linear-to-r ${categoryInfo[cat].color} text-white shadow-lg`
-                  : "bg-white text-purple-600 border-2 border-purple-200"
+                  : "bg-white text-purple-600 border-2 border-purple-200 cursor-pointer"
               }`}
             >
               <p className="font-semibold">{categoryInfo[cat].label}</p>

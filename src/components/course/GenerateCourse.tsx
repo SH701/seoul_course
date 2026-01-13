@@ -35,16 +35,6 @@ export default function GenerateCourse({
         location: location.trim() || "",
       });
 
-      if (data?.course?.spots) {
-        console.log(
-          "spots (from response):",
-          data.course.spots.map((s: any, i: number) => ({
-            i,
-            name: s.name,
-            nextMove: s.nextMove,
-          }))
-        );
-      }
       setCourse(data.course);
       setLocation("");
       setMessage("");

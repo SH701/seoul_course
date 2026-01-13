@@ -48,7 +48,7 @@ export default function Top() {
               hover:shadow-xl hover:scale-[1.03]
               active:scale-95
               sm:bg-linear-to-r sm:from-purple-500 sm:to-pink-500 sm:text-white sm:border-none sm:mr-3
-              sm:hover:shadow-lg sm:hover:brightness-110
+              sm:hover:shadow-lg sm:hover:brightness-110 cursor-pointer
             "
           >
             <MapPinPlus className="w-7 h-7 sm:hidden" />
@@ -58,7 +58,7 @@ export default function Top() {
           </button>
 
           <button
-            className="p-2 hover:bg-gray-100 rounded-xl transition-colors"
+            className="p-2 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer"
             onClick={() => router.push("/post")}
           >
             <BookOpenText className="w-5 h-5 sm:w-6 sm:h-6 text-[#123452]" />

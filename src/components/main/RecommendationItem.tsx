@@ -69,10 +69,7 @@ export default function RecommendationItem({
     }
   };
   return (
-    <div
-      className="group flex items-center gap-6 sm:p-6 px-3 py-2 rounded-2xl border-2 border-gray-100 hover:border-purple-300 hover:shadow-lg transition-all cursor-pointer relative"
-      onClick={onClick}
-    >
+    <div className="group flex items-center gap-6 sm:p-6 px-3 py-2 rounded-2xl border-2 border-purple-300  relative">
       <div
         className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0"
         style={{ backgroundColor: `${color}20` }}
@@ -81,13 +78,16 @@ export default function RecommendationItem({
       </div>
       <div className="flex-1">
         <div className="flex items-center my-2">
-          <h4 className="sm:text-xl font-bold text-[15px] truncate text-gray-900 group-hover:text-purple-600 transition-colors ">
+          <h4
+            className="sm:text-xl font-bold text-[15px] truncate text-gray-900 hover:text-purple-600 transition-colors cursor-pointer "
+            onClick={onClick}
+          >
             {item.title}
           </h4>
           <button
             onClick={save}
             disabled={isLoading}
-            className="ml-auto p-1  transition-transform disabled:opacity-50 disabled:cursor-not-allowed absolute sm:static right-3"
+            className="ml-auto p-1  transition-transform disabled:opacity-50 disabled:cursor-not-allowed absolute sm:static right-3 cursor-pointer"
             aria-label={saved ? "Unsave" : "Save"}
           >
             <Star
@@ -112,7 +112,10 @@ export default function RecommendationItem({
           )}
         </div>
       </div>
-      <ChevronRight className="w-6 h-6 text-gray-400 group-hover:text-purple-500 group-hover:translate-x-1 transition-all" />
+      <ChevronRight
+        className="w-6 h-6 text-gray-400 group-hover:text-purple-500 group-hover:translate-x-1 transition-all cursor-pointer"
+        onClick={onClick}
+      />
     </div>
   );
 }

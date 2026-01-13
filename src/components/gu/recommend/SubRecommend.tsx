@@ -29,7 +29,7 @@ export default function SubRecommendationCard({ place }: { place: any }) {
               "_blank"
             )
           }
-          className="w-full bg-purple-600 text-white text-sm py-2 rounded-lg hover:bg-purple-700 transition"
+          className="w-full bg-purple-600 text-white text-sm py-2 rounded-lg hover:bg-purple-700 transition cursor-pointer"
         >
           지도에서 보기
         </button>

@@ -8,7 +8,6 @@ export default function SyncUser() {
 
   useEffect(() => {
     if (!isSignedIn) {
-      console.log("🔒 Not signed in, skipping sync");
       return;
     }
 
@@ -16,11 +15,8 @@ export default function SyncUser() {
       typeof window !== "undefined" &&
       sessionStorage.getItem("user_synced")
     ) {
-      console.log("✓ User already synced in this session");
       return;
     }
-
-    console.log("🔄 Syncing user:", userId);
 
     fetch("/api/register", { method: "POST" })
       .then((res) => {
@@ -28,7 +24,6 @@ export default function SyncUser() {
         return res.json();
       })
       .then((data) => {
-        console.log("✅ User synced:", data);
         if (typeof window !== "undefined") {
           sessionStorage.setItem("user_synced", "1");
         }

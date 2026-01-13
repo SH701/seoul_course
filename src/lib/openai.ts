@@ -6,7 +6,17 @@ import {
 } from "@/types";
 import OpenAI from "openai";
 
-const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+function getOpenAIClient() {
+  const apiKey = process.env.OPENAI_API_KEY;
+
+  if (!apiKey || apiKey.trim() === "") {
+    throw new Error(
+      "OPENAI_API_KEY is not set or empty. Please check your .env file and restart the dev server."
+    );
+  }
+
+  return new OpenAI({ apiKey });
+}
 
 async function searchRealPlaces(
   gu: string,
@@ -113,6 +123,7 @@ JSON 형식으로 반환:
 }
 `;
 
+    const client = getOpenAIClient();
     const res = await client.chat.completions.create({
       model: "gpt-4o",
       messages: [{ role: "user", content: prompt }],

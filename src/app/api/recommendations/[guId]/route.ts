@@ -1,6 +1,6 @@
 import { guData } from "@/data/gudata";
 import { generateGuRecommendations } from "@/lib/";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
 export async function GET(
   request: NextRequest,

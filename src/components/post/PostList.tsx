@@ -15,12 +15,10 @@ export default function PostList({ posts, userImageUrl }: PostListProps) {
   }
 
   return (
-    <div className="sm:mt-10 py-4 bg-white/70 backdrop-blur-md rounded-2xl shadow-lg border border-gray-100">
-      <div className="flex flex-col divide-y divide-gray-400">
-        {posts.map((post: any) => (
-          <PostItem key={post.id} post={post} userImageUrl={userImageUrl} />
-        ))}
-      </div>
+    <div className="flex flex-col gap-4 sm:mt-10 my-4">
+      {posts.map((post: any) => (
+        <PostItem key={post.id} post={post} userImageUrl={userImageUrl} />
+      ))}
     </div>
   );
 }

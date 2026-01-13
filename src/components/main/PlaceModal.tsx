@@ -76,7 +76,7 @@ export default function PlaceModal({
           <div className="sticky top-0 bg-linear-to-r from-purple-500 to-pink-500 text-white p-6 rounded-t-2xl">
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-lg transition-colors"
+              className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-lg transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -108,7 +108,6 @@ export default function PlaceModal({
               </div>
             ) : null}
 
-            {/* 🔹 기본 정보 */}
             <div className="mb-6">
               <p className="text-gray-700 text-lg mb-4">{selectedItem.desc}</p>
               <div className="flex items-center gap-2 text-gray-600 bg-gray-50 rounded-lg p-3">
@@ -117,14 +116,13 @@ export default function PlaceModal({
               </div>
             </div>
 
-            {/* 네이버 정보 */}
             {loading ? (
               <div className="text-center py-12">
                 <div className="animate-spin w-10 h-10 border-4 border-purple-500 border-t-transparent rounded-full mx-auto mb-4"></div>
                 <p className="text-gray-500">상세 정보 불러오는 중...</p>
               </div>
             ) : placeDetail ? (
-              <div className="space-y-4 border-t pt-6">
+              <div className="space-y-4  pt-2">
                 <h3 className="text-lg font-bold text-gray-900 mb-4">
                   📍 상세 정보
                 </h3>

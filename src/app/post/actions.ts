@@ -31,6 +31,11 @@ export async function getAllPosts(page: number) {
           email: true,
         },
       },
+      _count: {
+        select: {
+          comments: true,
+        },
+      },
     },
   });
 

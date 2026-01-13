@@ -23,7 +23,7 @@ export default function RecommendationList({
           <h3 className="text-2xl font-bold text-gray-900">AI 추천 장소</h3>
         </div>
         <button
-          className="px-6 py-2 bg-gray-100 hover:bg-gray-200 rounded-xl font-medium text-sm transition-colors"
+          className="px-6 py-2 bg-gray-100 hover:bg-gray-200 rounded-xl font-medium text-sm transition-colors cursor-pointer"
           onClick={() => router.push(`/gu/${selectedGuId}`)}
         >
           전체 보기
