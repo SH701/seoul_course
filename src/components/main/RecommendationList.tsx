@@ -6,7 +6,6 @@ import RecommendationItem from "./RecommendationItem";
 
 import { RecommendationListProps } from "@/types/recommandation";
 
-
 export default function RecommendationList({
   recommendations,
   loading,
@@ -48,7 +47,7 @@ export default function RecommendationList({
           ))
         ) : (
           <div className="text-center py-8 text-gray-500">
-            추천 정보를 불러올 수 없습니다
+            추천 정보를 불러올 수 없습니다.
           </div>
         )}
       </div>

@@ -1,5 +1,3 @@
-"use client";
-
 import { ExternalLink } from "lucide-react";
 
 interface MoveProps {
@@ -9,7 +7,7 @@ interface MoveProps {
   };
 }
 
-export default function Move({ star }: MoveProps) {
+export default function MoveNaver({ star }: MoveProps) {
   const handleMapMove = () => {
     if (!star || !star.placeId) {
       console.error("Star data is missing.");

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
+import { useParams } from "next/navigation";
 
 import {
   getPostDetail,
@@ -15,8 +16,9 @@ import {
 import PostDate from "@/components/post/PostDate";
 import DeletePost from "@/components/post/DeletePost";
 
-export default function PostDetailPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default function PostDetailPage() {
+  const params = useParams();
+  const id = params?.id as string;
 
   const [post, setPost] = useState<any>(null);
   const [comments, setComments] = useState<any[]>([]);

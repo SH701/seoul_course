@@ -4,10 +4,11 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   request: Request,
-  { params }: { params: { guId: string } }
+  { params }: { params: Promise<{ guId: string }> }
 ) {
   try {
-    const gu = guData.find((g) => g.id === params.guId);
+    const { guId } = await params;
+    const gu = guData.find((g) => g.id === guId);
 
     if (!gu) {
       return NextResponse.json({ error: "Gu not found" }, { status: 404 });

@@ -62,22 +62,29 @@ export async function generateGuRecommendations(
       return [];
     }
 
+    // 장소 목록을 번호와 함께 포맷팅
+    const cafeList = cafes.map((c) => c.name).join(", ") || "없음";
+    const restaurantList = restaurants.map((r) => r.name).join(", ") || "없음";
+    const attractionList = attractions.map((a) => a.name).join(", ") || "없음";
+
     const prompt = `
 너는 서울 ${name} 여행 큐레이터야.
 
 아래는 **실제 검색된 장소들**이야:
 
-카페: ${cafes.map((c) => c.name).join(", ") || "없음"}
-맛집/식당: ${restaurants.map((r) => r.name).join(", ") || "없음"}
-명소/관광지: ${attractions.map((a) => a.name).join(", ") || "없음"}
+📍 카페: ${cafeList}
+🍽️ 맛집/식당: ${restaurantList}
+📸 명소/관광지: ${attractionList}
+
+**중요: 반드시 위 목록에 있는 정확한 장소명만 사용할 것!**
 
 이 중에서 ${vibe} 분위기에 맞고 ${hotspot} 근처의 장소를 3곳 골라서 추천해줘.
 
 규칙:
-1. **반드시 위 목록에서만 선택**할 것
+1. **목록에 없는 장소를 절대 만들지 말 것** - 위 목록의 정확한 이름만 사용
 2. ${vibe} 분위기와 ${hotspot} 테마에 가장 잘 맞는 3곳 선택
 3. 각 카테고리에서 최소 1곳씩 선택 (가능한 경우)
-4. 카페/맛집은 유명하고 평점 높은 곳 우선
+4. "title" 필드에는 위 목록의 장소명을 정확히 복사해서 사용
 5. 위 목록에 적합한 장소가 없으면 다른 카테고리로 대체
 
 icon은 다음 중 선택: "Coffee", "Utensils", "Camera", "ShoppingBag", "Map"
@@ -87,19 +94,19 @@ JSON 형식으로 반환:
   "recommendations": [
     {
       "icon": "Coffee",
-      "title": "정확한 장소명",
+      "title": "위 목록의 정확한 장소명",
       "desc": "15자 이내 특징",
       "time": "운영시간 (모르면 10:00-22:00)"
     },
     {
       "icon": "Utensils",
-      "title": "정확한 장소명",
+      "title": "위 목록의 정확한 장소명",
       "desc": "15자 이내 특징",
       "time": "운영시간"
     },
     {
       "icon": "Camera",
-      "title": "정확한 장소명",
+      "title": "위 목록의 정확한 장소명",
       "desc": "15자 이내 특징",
       "time": "운영시간"
     }

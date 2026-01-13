@@ -4,10 +4,10 @@ import { currentUser } from "@clerk/nextjs/server";
 
 import { Course, Stars } from "@/types/prisma";
 
-import BackButton from "@/components/etc/BackButton";
+import BackButton from "@/components/ui/button/BackButton";
 import CourseCard from "@/components/course/CoureseCard";
-import StarDelete from "@/components/etc/StarDelete";
-import Move from "@/components/etc/Move";
+import StarDelete from "@/components/ui/button/StarDelete";
+import MoveNaver from "@/components/ui/button/MoveNaver";
 
 export default async function Me() {
   const user = await currentUser();
@@ -92,7 +92,7 @@ export default async function Me() {
                             {star.address}
                           </p>
                         </div>
-                        <Move star={star} />
+                        <MoveNaver star={star} />
                       </div>
 
                       <div className="h-1 bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400"></div>

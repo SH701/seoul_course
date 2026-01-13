@@ -1,13 +1,12 @@
-import { Weather } from "@/lib";
+import { Weather } from "@/lib/weather";
 import { NextResponse } from "next/server";
 
 export async function GET(
-  req: Request,
-  { params }: { params: { guName: string } | Promise<{ guName: string }> }
+  request: Request,
+  { params }: { params: Promise<{ guName: string }> }
 ) {
   try {
-    const resolvedParams = await Promise.resolve(params);
-    const encodedGuName = resolvedParams.guName;
+    const { guName: encodedGuName } = await params;
     const guName = decodeURIComponent(encodedGuName);
     const data = await Weather(guName);
     return NextResponse.json(data);

@@ -1,6 +1,6 @@
 "use client";
-import React from "react";
-import ChatWidget from "@/components/main/ChatWidget";
+
+import ChatWidget from "@/components/chat/ChatWidget";
 import Sidebar from "@/components/main/Sidebar";
 import Top from "@/components/main/Top";
 import StatsCards from "@/components/main/StatsCards";

@@ -24,10 +24,11 @@ function getIcon(category: "cafe" | "restaurant" | "attraction") {
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const gu = guData.find((g) => g.id === params.id);
+    const { id } = await params;
+    const gu = guData.find((g) => g.id === id);
     if (!gu)
       return NextResponse.json({ error: "Gu not found" }, { status: 404 });
 
