@@ -1,6 +1,5 @@
 "use client";
 
-import ChatWidget from "@/components/chat/ChatWidget";
 import Sidebar from "@/components/main/Sidebar";
 import Top from "@/components/main/Top";
 import StatsCards from "@/components/main/StatsCards";
@@ -11,6 +10,7 @@ import HotPlaces from "@/components/main/HotPlaces";
 import { useRecommendations } from "@/hooks/queries/useRecommendations";
 import { useWeather } from "@/hooks/queries/useWeather";
 import { useAppStore } from "@/store/useAppStore";
+import ChatWidget from "@/components/chat/ChatWidget";
 
 export default function Home() {
   const { selectedGu, selectedItem, setSelectedItem } = useAppStore();
@@ -39,7 +39,7 @@ export default function Home() {
         <Sidebar isMobile={true} />
 
         {selectedGu ? (
-          <div className="p-4 sm:p-8 lg:p-12 min-w-screen">
+          <div className="p-4 sm:p-8 lg:p-12">
             <StatsCards
               rating={selectedGu.rating}
               vibe={selectedGu.vibe}
@@ -54,7 +54,7 @@ export default function Home() {
               onItemClick={handleItemClick}
               guName={selectedGu.name}
             />
-            <div className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl p-6 sm:p-8 text-white">
+            <div className="bg-linear-to-br from-purple-500 to-pink-500 rounded-2xl p-6 sm:p-8 text-white">
               <HotPlaces gu={selectedGu.name} />
             </div>
           </div>
