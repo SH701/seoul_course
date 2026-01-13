@@ -11,6 +11,6 @@ export function useHotPlaces(gu: string) {
       if (!res.ok) throw new Error("Failed to fetch hot places");
       return res.json();
     },
-    staleTime: getMsUntilMidnight(), // 오늘 자정까지 캐싱
+    staleTime: getMsUntilMidnight(),
   });
 }

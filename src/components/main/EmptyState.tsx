@@ -6,7 +6,7 @@ export default function EmptyState() {
   return (
     <div className="h-[calc(100vh-120px)] flex items-center justify-center px-4 sm:px-6">
       <div className="text-center max-w-md">
-        <div className="w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full flex items-center justify-center mx-auto mb-6">
+        <div className="w-24 h-24 sm:w-32 sm:h-32 bg-linear-to-br from-purple-100 to-pink-100 rounded-full flex items-center justify-center mx-auto mb-6">
           <MapPin className="w-12 h-12 sm:w-16 sm:h-16 text-purple-500" />
         </div>
         <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">

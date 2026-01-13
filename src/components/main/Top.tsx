@@ -3,7 +3,7 @@ import { BookOpenText, Menu, MapPinPlus } from "lucide-react";
 import { UserButton } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import GenerateCourseModal from "@/components/course/GenerateCourse";
+import GenerateCourse from "@/components/course/GenerateCourse";
 import { useAppStore } from "@/store/useAppStore";
 
 export default function Top() {
@@ -39,7 +39,7 @@ export default function Top() {
             onClick={() => setIsModalOpen(true)}
             className="
               fixed bottom-24 right-4 sm:static
-              z-50 flex items-center justify-center gap-2
+              z-40 flex items-center justify-center gap-2
               p-3.5 sm:px-5 sm:py-2.5
               rounded-full font-semibold tracking-tight
               transition-all duration-300 ease-out
@@ -70,7 +70,7 @@ export default function Top() {
         </div>
       </div>
 
-      <GenerateCourseModal
+      <GenerateCourse
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />

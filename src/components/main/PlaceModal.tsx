@@ -66,14 +66,14 @@ export default function PlaceModal({
         onClick={onClose}
       >
         <motion.div
-          className="relative bg-white rounded-2xl shadow-2xl w-[500px] max-h-[85vh] overflow-y-auto mx-4 sm:mx-0"
+          className="relative bg-white rounded-2xl shadow-2xl w-125 max-h-[85vh] overflow-y-auto mx-4 sm:mx-0"
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
           transition={{ duration: 0.2 }}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="sticky top-0 bg-gradient-to-r from-purple-500 to-pink-500 text-white p-6 rounded-t-2xl">
+          <div className="sticky top-0 bg-linear-to-r from-purple-500 to-pink-500 text-white p-6 rounded-t-2xl">
             <button
               onClick={onClose}
               className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-lg transition-colors"
@@ -93,7 +93,7 @@ export default function PlaceModal({
                       key={idx}
                       src={url}
                       alt={`${selectedItem.title} 사진 ${idx + 1}`}
-                      className="h-40 w-64 object-cover rounded-xl flex-shrink-0 shadow-md"
+                      className="h-40 w-64 object-cover rounded-xl shrink-0 shadow-md"
                     />
                   ))}
                 </div>
@@ -133,7 +133,7 @@ export default function PlaceModal({
                 {placeDetail.roadAddress && (
                   <div className="bg-gray-50 rounded-xl p-4">
                     <div className="flex items-start gap-3">
-                      <MapPin className="w-5 h-5 text-purple-500 flex-shrink-0 mt-0.5" />
+                      <MapPin className="w-5 h-5 text-purple-500 shrink-0 mt-0.5" />
                       <div className="flex-1">
                         <p className="font-medium text-gray-900 mb-1">
                           {placeDetail.roadAddress}
@@ -167,7 +167,7 @@ export default function PlaceModal({
                   href={placeDetail.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 w-full mt-6 px-6 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-bold hover:shadow-xl transition-all"
+                  className="flex items-center justify-center gap-2 w-full mt-6 px-6 py-4 bg-linear-to-r from-purple-500 to-pink-500 text-white rounded-xl font-bold hover:shadow-xl transition-all"
                 >
                   <ExternalLink className="w-5 h-5" />
                   사진 · 리뷰 보기

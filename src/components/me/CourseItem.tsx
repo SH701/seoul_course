@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { MapPin, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import CourseModal from "./CourseModal";
+import GenerateCourse from "../course/GenerateCourse";
 
-interface CourseCardProps {
+interface CourseItemProps {
   course: {
     id: string;
     title: string;
@@ -16,7 +16,7 @@ interface CourseCardProps {
   };
 }
 
-export default function CourseCard({ course }: CourseCardProps) {
+export default function CourseItem({ course }: CourseItemProps) {
   const router = useRouter();
   const [isDeleting, setIsDeleting] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -99,11 +99,10 @@ export default function CourseCard({ course }: CourseCardProps) {
             )}
           </div>
           {/* 하단 구분선 */}
-          <div className="h-1 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400"></div>
+          <div className="h-1 bg-linear-to-r from-purple-400 via-pink-400 to-blue-400"></div>
         </div>
       </li>
-      <CourseModal
-        course={isModalOpen ? course : null}
+      <GenerateCourse
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />

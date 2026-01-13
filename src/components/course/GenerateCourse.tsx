@@ -1,67 +1,41 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import {
-  X,
-  Clock,
-  MapPin,
-  ArrowRight,
-  Calendar,
-  LogIn,
-  Lock,
-} from "lucide-react";
+import { useState } from "react";
+import { X, Clock, MapPin, Calendar, LogIn, Lock } from "lucide-react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
+import { useGuest } from "@/hooks/queries/useGuest";
+import { useCourse } from "@/hooks/mutation/useCourse";
+import { useSaveCourse } from "@/hooks/mutation/useSaveCourse";
 
-interface GenerateCourseModalProps {
+interface GenerateCourseProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function GenerateCourseModal({
+export default function GenerateCourse({
   isOpen,
   onClose,
-}: GenerateCourseModalProps) {
+}: GenerateCourseProps) {
   const [message, setMessage] = useState("");
   const [location, setLocation] = useState("");
-  const [loading, setLoading] = useState(false);
   const [course, setCourse] = useState<any | null>(null);
-
-  const [saving, setSaving] = useState(false);
   const router = useRouter();
 
-  const [guestRemaining, setGuestRemaining] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (!isOpen) return;
-    (async () => {
-      try {
-        const res = await fetch("/api/guest");
-        if (!res.ok) return;
-        const json = await res.json();
-        setGuestRemaining(
-          typeof json.guestRemaining === "number" ? json.guestRemaining : null
-        );
-      } catch {}
-    })();
-  }, [isOpen]);
+  const { data: guestData, refetch: refetchGuest } = useGuest(isOpen);
+  const guestRemaining = guestData?.guestRemaining ?? null;
+  const { mutateAsync: generateCourse, isPending: isGenerating } = useCourse();
+  const { mutateAsync: saveCourse, isPending: isSaving } = useSaveCourse();
 
   const handleGenerate = async () => {
     if (!message.trim()) return;
-    setLoading(true);
-    try {
-      const res = await fetch("/api/course/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message,
-          location: location.trim() || "",
 
-          personaId: "ruby",
-        }),
+    try {
+      const data = await generateCourse({
+        message,
+        location: location.trim() || "",
       });
 
-      const data = await res.json();
       if (data?.course?.spots) {
         console.log(
           "spots (from response):",
@@ -72,144 +46,113 @@ export default function GenerateCourseModal({
           }))
         );
       }
-      if (res.status === 401 && data?.error === "guest_limit") {
-        setGuestRemaining(0);
-
-        return;
-      }
-
-      if (!res.ok) {
-        alert("코스 생성에 실패했습니다.");
-        return;
-      }
-
       setCourse(data.course);
       setLocation("");
       setMessage("");
-
-      if (typeof data.guestRemaining === "number") {
-        setGuestRemaining(data.guestRemaining);
-      }
-    } catch (err) {
+      refetchGuest();
+    } catch (err: any) {
       console.error(err);
-      alert("네트워크 오류가 발생했습니다.");
-    } finally {
-      setLoading(false);
+      if (err.message.includes("401") || err.message.includes("guest_limit")) {
+        refetchGuest();
+      } else {
+        alert("코스 생성에 실패했습니다.");
+      }
     }
   };
 
-  const saved = async () => {
+  const handleSave = async () => {
     if (!course) return;
 
-    setSaving(true);
     try {
-      const res = await fetch("/api/course/save", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: course.title,
-          vibe: course.vibe,
-          route: course.route,
-          totalDuration: course.totalDuration,
-          spots: course.spots,
-          personaId: "ruby",
-        }),
+      await saveCourse({
+        title: course.title,
+        vibe: course.vibe,
+        route: course.route,
+        totalDuration: course.totalDuration,
+        spots: course.spots,
       });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        alert("✅ 코스가 저장되었습니다!");
-        onClose();
-      } else {
-        alert("❌ 저장에 실패했습니다: " + (data.error || "알 수 없는 오류"));
-      }
+      alert("✅ 코스가 저장되었습니다!");
+      onClose();
     } catch (err) {
       console.error(err);
       alert("❌ 저장 중 오류가 발생했습니다.");
-    } finally {
-      setSaving(false);
     }
   };
 
   if (!isOpen) return null;
 
   const modal = (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999] p-4">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-9999">
       <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-auto shadow-2xl">
-        {/* 헤더 */}
-        <div className="top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-2xl">
-          <div>
-            <h2 className="text-xl font-bold text-gray-900">
-              ✨ AI 하루 코스 생성기
-            </h2>
-            <p className="text-sm text-gray-500 my-1">
-              AI가 당신의 하루 코스를 만들어드립니다
-            </p>
-            {guestRemaining !== null && (
-              <div className="text-xs text-gray-600">
-                익명 유저 남은 생성횟수:{" "}
-                <span className="font-medium text-gray-900">
-                  {guestRemaining}
-                </span>
+        {!course && (
+          <div className="p-6 space-y-4">
+            <div className="top-0 bg-white  px-6 py-4 flex items-center justify-between rounded-t-2xl">
+              <div>
+                <h2 className="text-xl font-bold text-gray-900">
+                  ✨ AI 하루 코스 생성기
+                </h2>
+                <p className="text-sm text-gray-500 my-1">
+                  AI가 당신의 하루 코스를 만들어드립니다
+                </p>
+                {guestRemaining !== null && (
+                  <div className="text-xs text-gray-600">
+                    익명 유저 남은 생성횟수:{" "}
+                    <span className="font-medium text-gray-900">
+                      {guestRemaining}
+                    </span>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition"
-          >
-            <X className="w-6 h-6" />
-          </button>
-        </div>
+              <button
+                onClick={onClose}
+                className="text-gray-400 hover:text-gray-600 transition"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                📍 출발 위치
+              </label>
+              <input
+                type="text"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                placeholder="예:성수역, 이태원"
+                className="w-full p-3 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
+              />
+            </div>
 
-        {/* 내용 */}
-        <div className="p-6 space-y-4">
-          {/* 위치 입력 */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              📍 출발 위치
-            </label>
-            <input
-              type="text"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              placeholder="예:성수역, 이태원"
-              className="w-full p-3 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
-            />
-          </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                💬 코스 요청
+              </label>
+              <textarea
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="시간,원하는 활동에 대해 정확히 적어주세요"
+                className="w-full p-4 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent resize-none"
+                rows={4}
+              />
+            </div>
 
-          {/* 요청 메시지 */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              💬 코스 요청
-            </label>
-            <textarea
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="시간,원하는 활동에 대해 정확히 적어주세요"
-              className="w-full p-4 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent resize-none"
-              rows={4}
-            />
+            <div className="flex items-center justify-between gap-4">
+              <button
+                onClick={handleGenerate}
+                disabled={isGenerating || guestRemaining === 0}
+                className="flex-1 px-6 py-3 bg-linear-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition font-medium cursor-pointer"
+              >
+                {isGenerating ? "코스 생성 중..." : "🎯 코스 생성하기"}
+              </button>
+            </div>
           </div>
-
-          <div className="flex items-center justify-between gap-4">
-            <button
-              onClick={handleGenerate}
-              disabled={loading || guestRemaining === 0}
-              className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition font-medium"
-            >
-              {loading ? "코스 생성 중..." : "🎯 코스 생성하기"}
-            </button>
-          </div>
-
-          {/* 생성된 코스 */}
+        )}
+        <div className="px-6 pb-6 space-y-4">
           {course && (
             <div className="mt-6 space-y-4">
-              {/* 코스 헤더 */}
-              <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl p-6 text-white">
+              <div className="rounded-xl p-6 text-black bg-purple-50">
                 <h3 className="text-2xl font-bold">{course.title}</h3>
-                <p className="text-purple-100 mt-2">{course.vibe}</p>
+                <p className="text-purple-500 mt-2">{course.vibe}</p>
 
                 <div className="flex gap-4 mt-4 text-sm">
                   <div className="flex items-center gap-1 bg-white/20 px-3 py-1 rounded-full">
@@ -218,35 +161,25 @@ export default function GenerateCourseModal({
                   </div>
                 </div>
 
-                {/* 전체 경로 */}
                 {course.route && (
-                  <div className="mt-4 text-sm text-purple-100 flex items-center gap-2">
-                    <Calendar className="w-4 h-4 flex-shrink-0" />
+                  <div className="mt-4 text-sm text-purple-500 flex items-center gap-2">
+                    <Calendar className="w-4 h-4 shrink-0" />
                     <span className="truncate">{course.route}</span>
                   </div>
                 )}
               </div>
 
               <div className="relative space-y-6 pl-8">
-                <div className="absolute left-3 top-0 bottom-0 w-0.5 bg-gradient-to-b from-purple-400 to-pink-400"></div>
+                <div className="absolute left-3 top-0 bottom-0 w-0.5 bg-linear-to-b from-purple-400 to-pink-400"></div>
 
                 {course.spots.map((spot: any, i: number) => (
                   <div key={i} className="relative">
-                    {/* 타임라인 점 */}
-                    <div className="absolute -left-[26px] top-2 w-5 h-5 rounded-full bg-white border-4 border-purple-400 shadow-md"></div>
-
-                    {/* 카드 */}
-                    <div className="bg-white rounded-xl p-5 shadow-md hover:shadow-lg transition border border-gray-100 cursor-pointer">
-                      {/* 시간 & 카테고리 */}
+                    <div className="absolute -left-7 top-2 w-5 h-5 rounded-full bg-white border-4 border-purple-400 shadow-md"></div>
+                    <div className="bg-white rounded-xl p-5 shadow-md hover:shadow-lg transition border border-gray-100 ">
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-3">
-                          {spot.arriveTime && (
-                            <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-semibold">
-                              {spot.arriveTime}
-                            </span>
-                          )}
                           {spot.category && (
-                            <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                            <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-semibold">
                               {spot.category}
                             </span>
                           )}
@@ -259,20 +192,17 @@ export default function GenerateCourseModal({
                         )}
                       </div>
 
-                      {/* 장소명 */}
                       <h4 className="text-lg font-bold text-gray-900 mb-2">
                         {spot.name}
                       </h4>
 
-                      {/* 설명 */}
                       <p className="text-sm text-gray-600 leading-relaxed mb-3">
                         {spot.desc}
                       </p>
 
-                      {/* 주소 */}
                       {spot.address && (
                         <div className="flex items-start gap-2 text-xs text-gray-500 mb-2">
-                          <MapPin className="w-3 h-3 mt-0.5 flex-shrink-0" />
+                          <MapPin className="w-3 h-3 mt-0.5 shrink-0" />
                           <span>{spot.address}</span>
                         </div>
                       )}
@@ -285,7 +215,7 @@ export default function GenerateCourseModal({
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label={`${spot.name} 지도에서 보기 (새창)`}
-                            className="inline-flex items-start gap-2 bg-white   text-sm text-gray-700 transition"
+                            className="mt-1 pt-3  flex items-center gap-2 text-sm text-purple-600"
                           >
                             <span className="font-medium">
                               {spot.name} 지도에서 보기
@@ -306,24 +236,6 @@ export default function GenerateCourseModal({
                           </a>
                         </div>
                       )}
-                      {/* 다음 이동 */}
-                      {i < course.spots.length - 1 ? (
-                        <div className="mt-1 pt-3 border-t border-gray-100 flex items-center gap-2 text-sm text-purple-600">
-                          <ArrowRight className="w-4 h-4" />
-                          <span>
-                            {spot.nextMove ??
-                              course.spots[i + 1]?.nextMove ??
-                              "이동 정보 없음"}
-                          </span>
-                        </div>
-                      ) : (
-                        <div className="mt-1 pt-3 border-t border-gray-100 flex items-center gap-2 text-sm text-purple-600">
-                          <ArrowRight className="w-4 h-4" />
-                          <span className="text-sm text-purple-600">
-                            집으로가기
-                          </span>
-                        </div>
-                      )}
                     </div>
                   </div>
                 ))}
@@ -333,10 +245,10 @@ export default function GenerateCourseModal({
           {course && (
             <button
               className="w-full py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition font-medium"
-              onClick={saved}
-              disabled={saving}
+              onClick={handleSave}
+              disabled={isSaving}
             >
-              {saving ? "저장 중..." : "💾 이 코스 저장하기"}
+              {isSaving ? "저장 중..." : "💾 이 코스 저장하기"}
             </button>
           )}
         </div>

@@ -13,8 +13,3 @@ export interface Props {
   route?: string | null | undefined;
   spots: Spot[];
 }
-export interface CourseModalProps {
-  course: Props | null;
-  onClose: () => void;
-  isOpen: boolean;
-}

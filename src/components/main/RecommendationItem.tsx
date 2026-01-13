@@ -1,5 +1,8 @@
 "use client";
 
+import { useAddStar } from "@/hooks/mutation/useAddStar";
+import { useCheckStar } from "@/hooks/mutation/useCheckStar";
+import { useDeleteStar } from "@/hooks/mutation/useDeleteStar";
 import { RecommendationItemProps } from "@/types/recommandation";
 import {
   Coffee,
@@ -9,7 +12,6 @@ import {
   Utensils,
   Star,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 const iconMap: Record<string, any> = {
@@ -26,68 +28,48 @@ export default function RecommendationItem({
 }: RecommendationItemProps) {
   const IconComponent = iconMap[item.icon] || Coffee;
   const [saved, setSaved] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
-  useEffect(() => {
-    const checkSaved = async () => {
-      try {
-        const finalPlaceId =
-          item.placeId || item.title.replace(/\s+/g, "-").toLowerCase();
+  const { mutate: checkStar } = useCheckStar();
+  const { mutate: addStar, isPending: isAddingPending } = useAddStar();
+  const { mutate: deleteStar, isPending: isDeletingPending } = useDeleteStar();
 
-        const response = await fetch("/api/stars/check", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ placeId: finalPlaceId }),
-        });
-        const data = await response.json();
-        setSaved(data.saved);
-      } catch (error) {
-        console.error("Failed to check saved status:", error);
-      }
-    };
+  const isLoading = isAddingPending || isDeletingPending;
 
-    checkSaved();
-  }, [item.placeId, item.title]);
-
-  const save = async (e: React.MouseEvent) => {
+  const save = (e: React.MouseEvent) => {
     e.stopPropagation();
 
-    if (isLoading) return;
-    const finalPlaceId =
-      item.placeId || item.title.replace(/\s+/g, "-").toLowerCase();
-
-    const newSavedState = !saved;
-    setSaved(newSavedState);
-    setIsLoading(true);
-
-    try {
-      const response = await fetch("/api/stars", {
-        method: newSavedState ? "POST" : "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          placeId: finalPlaceId,
+    if (saved) {
+      deleteStar(
+        {
+          placeId: item.placeId,
           title: item.title,
           desc: item.desc || "",
           icon: item.icon,
           time: item.time,
           price: item.price || "",
           address: item.address,
-        }),
-      });
-      router.refresh();
-      if (!response.ok) {
-        setSaved(!newSavedState);
-        console.error("Failed to save");
-      }
-    } catch (error) {
-      setSaved(!newSavedState);
-      console.error("Error saving:", error);
-    } finally {
-      setIsLoading(false);
+        },
+        {
+          onSuccess: () => setSaved(false),
+        }
+      );
+    } else {
+      addStar(
+        {
+          placeId: item.placeId,
+          title: item.title,
+          desc: item.desc || "",
+          icon: item.icon,
+          time: item.time,
+          price: item.price || "",
+          address: item.address,
+        },
+        {
+          onSuccess: () => setSaved(true),
+        }
+      );
     }
   };
-
   return (
     <div
       className="group flex items-center gap-6 sm:p-6 px-3 py-2 rounded-2xl border-2 border-gray-100 hover:border-purple-300 hover:shadow-lg transition-all cursor-pointer relative"

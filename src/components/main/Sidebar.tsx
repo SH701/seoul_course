@@ -6,7 +6,6 @@ import { guData } from "@/data/gudata";
 import { useRouter } from "next/navigation";
 import { useAppStore } from "@/store/useAppStore";
 
-
 type SidebarProps = {
   isMobile?: boolean;
 };
@@ -41,7 +40,6 @@ export default function Sidebar({ isMobile = false }: SidebarProps) {
 
   return (
     <>
-      {/* 모바일일 때만 오버레이 */}
       {isMobile && isOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-30 sm:hidden"
@@ -62,7 +60,7 @@ export default function Sidebar({ isMobile = false }: SidebarProps) {
       >
         <div className="p-6 border-b border-gray-200">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-linear-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
               <MapPin className="w-7 h-7 text-white" />
             </div>
             <div>
@@ -103,7 +101,7 @@ export default function Sidebar({ isMobile = false }: SidebarProps) {
               }`}
             >
               <div
-                className={`w-10 h-10 rounded-lg flex items-center justify-center font-bold flex-shrink-0 ${
+                className={`w-10 h-10 rounded-lg flex items-center justify-center font-bold shrink-0 ${
                   selectedGu?.id === gu.id
                     ? "bg-white/20 text-white"
                     : "text-white"

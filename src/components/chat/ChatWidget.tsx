@@ -5,6 +5,7 @@ import { MessageCircle, ArrowUp } from "lucide-react";
 import Image from "next/image";
 
 import { personas } from "@/lib/persona";
+import { useChat } from "@/hooks/mutation/useChat";
 
 interface Message {
   role: "user" | "ai";
@@ -13,21 +14,18 @@ interface Message {
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [personaName, setPersonaName] = useState("AI 도우미");
-  const [personaimg, setPersonaimg] = useState<string>("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([
     { role: "ai", text: "안녕하세요!" },
   ]);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const { mutateAsync: sendMessage, isPending } = useChat();
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, loading]);
+  }, [messages, isPending]);
 
   async function typeAIMessage(fullText: string) {
-    setLoading(false);
     let displayed = "";
     for (const char of fullText) {
       displayed += char;
@@ -48,16 +46,9 @@ export default function ChatWidget() {
     const userMsg = message;
     setMessages((prev) => [...prev, { role: "user", text: userMsg }]);
     setMessage("");
-    setLoading(true);
 
     try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userMsg }),
-      });
-
-      const data = await res.json();
+      const data = await sendMessage(userMsg);
       setMessages((prev) => [
         ...prev,
         {
@@ -68,7 +59,6 @@ export default function ChatWidget() {
       await typeAIMessage(data.reply);
     } catch (err) {
       console.error(err);
-      setLoading(false);
     }
   }
 
@@ -94,21 +84,11 @@ export default function ChatWidget() {
           <div className="flex items-center justify-between p-4 border-b border-gray-200">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12  rounded-xl flex items-center justify-center">
-                {personaimg ? (
-                  <Image
-                    src={personaimg}
-                    alt={personaName}
-                    width={48}
-                    height={48}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <MessageCircle className="w-5 h-5 text-white" />
-                )}
+                <MessageCircle className="w-5 h-5 text-white" />
               </div>
               <div>
                 <h3 className="font-bold text-base sm:text-lg text-gray-900">
-                  {personaName}
+                  AI 도우미
                 </h3>
                 <p className="text-xs  text-gray-500">
                   원하는 장소나 활동의 키워드를 입력하세요.
@@ -157,7 +137,7 @@ export default function ChatWidget() {
               </div>
             ))}
 
-            {loading && (
+            {isPending && (
               <div className="max-w-[85%] sm:max-w-[75%] w-fit mr-auto bg-gray-100 text-gray-500 px-3 py-2 rounded-xl text-sm sm:text-base italic">
                 AI가 생각 중이에요...
               </div>

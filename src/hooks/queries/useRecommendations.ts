@@ -11,7 +11,7 @@ export function useRecommendations(guId: string) {
       const data = await res.json();
       return data.recommendations || [];
     },
-    enabled: !!guId, // guId가 있을 때만 실행
+    enabled: !!guId,
     staleTime: getMsUntilMidnight(),
   });
 }
