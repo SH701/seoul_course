@@ -1,5 +1,5 @@
 "use client";
-import { BookOpenText, Menu, Bot, MapPinPlus } from "lucide-react";
+import { BookOpenText, Menu, MapPinPlus } from "lucide-react";
 import { UserButton } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -10,14 +10,6 @@ export default function Top() {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { selectedGu, toggleSidebar } = useAppStore();
-
-  const changeBot = () => {
-    if (confirm("AI를 변경하시겠습니까?")) {
-      localStorage.removeItem("selectedPersona");
-      document.cookie = "selectedPersona=; path=/; max-age=0";
-      router.push("/bot");
-    }
-  };
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-30">
@@ -70,13 +62,6 @@ export default function Top() {
             onClick={() => router.push("/post")}
           >
             <BookOpenText className="w-5 h-5 sm:w-6 sm:h-6 text-[#123452]" />
-          </button>
-
-          <button
-            className="p-2 hover:bg-gray-100 rounded-xl transition-colors"
-            onClick={changeBot}
-          >
-            <Bot className="w-5 h-5 sm:w-7 sm:h-7 text-[#14334e]" />
           </button>
 
           <div className="p-2 sm:p-3">

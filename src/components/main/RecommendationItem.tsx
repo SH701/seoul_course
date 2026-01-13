@@ -1,6 +1,5 @@
 "use client";
 
-import { getTodayKey } from "@/lib/date";
 import { RecommendationItemProps } from "@/types/recommandation";
 import {
   Coffee,
@@ -29,23 +28,12 @@ export default function RecommendationItem({
   const [saved, setSaved] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+
   useEffect(() => {
     const checkSaved = async () => {
       try {
         const finalPlaceId =
           item.placeId || item.title.replace(/\s+/g, "-").toLowerCase();
-
-        const today = getTodayKey();
-        const cacheKey = `saved-${finalPlaceId}`;
-        const dateKey = `saved-date-${finalPlaceId}`;
-
-        const cachedValue = localStorage.getItem(cacheKey);
-        const cachedDate = localStorage.getItem(dateKey);
-
-        if (cachedValue !== null && cachedDate === today) {
-          setSaved(cachedValue === "true");
-          return;
-        }
 
         const response = await fetch("/api/stars/check", {
           method: "POST",
@@ -54,9 +42,6 @@ export default function RecommendationItem({
         });
         const data = await response.json();
         setSaved(data.saved);
-
-        localStorage.setItem(cacheKey, String(data.saved));
-        localStorage.setItem(dateKey, today);
       } catch (error) {
         console.error("Failed to check saved status:", error);
       }

@@ -6,7 +6,6 @@ import Image from "next/image";
 
 import { personas } from "@/lib/persona";
 
-
 interface Message {
   role: "user" | "ai";
   text: string;
@@ -15,21 +14,14 @@ interface Message {
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [personaName, setPersonaName] = useState("AI 가이드");
+  const [personaName, setPersonaName] = useState("AI 도우미");
   const [personaimg, setPersonaimg] = useState<string>("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([
     { role: "ai", text: "안녕하세요!" },
   ]);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    const savedPersonaId = localStorage.getItem("selectedPersona");
-    const persona = personas.find((p) => p.id === savedPersonaId);
-    if (persona) {
-      setPersonaName(persona.name);
-      setPersonaimg(persona.image);
-    }
-  }, []);
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
@@ -82,7 +74,6 @@ export default function ChatWidget() {
 
   return (
     <>
-      {/* 열기 버튼 */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-6 right-4 sm:bottom-12 sm:right-8 w-14 h-14 sm:w-16 sm:h-16 bg-purple-500 rounded-full flex items-center justify-center text-white shadow-lg hover:bg-purple-600 z-50"
