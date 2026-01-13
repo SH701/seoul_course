@@ -16,7 +16,7 @@ export default clerkMiddleware(async (auth, req) => {
     if (hasPersona) {
       return NextResponse.redirect(new URL("/main", req.url));
     } else {
-      return NextResponse.redirect(new URL("/onboard", req.url));
+      return NextResponse.redirect(new URL("/bot", req.url));
     }
   }
 

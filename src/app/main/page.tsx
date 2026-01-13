@@ -8,8 +8,8 @@ import RecommendationList from "@/components/main/RecommendationList";
 import EmptyState from "@/components/main/EmptyState";
 import PlaceModal from "@/components/main/PlaceModal";
 import HotPlaces from "@/components/main/HotPlaces";
-import { useRecommendations } from "@/features/recommendations/queries/useRecommendations";
-import { useWeather } from "@/features/weather/queries/useWeather";
+import { useRecommendations } from "@/hooks/queries/useRecommendations";
+import { useWeather } from "@/hooks/queries/useWeather";
 import { useAppStore } from "@/store/useAppStore";
 
 export default function Home() {

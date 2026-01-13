@@ -13,7 +13,7 @@
     "prisma:migrate": "dotenv -e .env.local -- prisma migrate dev"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.33.0",
+    "@clerk/nextjs": "^6.36.7",
     "@heroicons/react": "^2.1.5",
     "@prisma/adapter-pg": "^7.0.1",
     "@prisma/client": "^6.19.0",

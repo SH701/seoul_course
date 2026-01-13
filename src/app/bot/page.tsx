@@ -17,7 +17,7 @@ export default function Onboarding() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-pink-100 to-purple-100 px-4">
       <h1 className="text-2xl sm:text-3xl font-bold mb-6">
-        당신의 도슨트를 선택하세요
+        당신의 AI를 선택하세요
       </h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-3xl">

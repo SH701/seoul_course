@@ -4,16 +4,15 @@ import { auth } from "@clerk/nextjs/server";
 import { famousgu } from "@/data/gudata";
 import { cookies } from "next/headers";
 
-
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const MAX_GUEST = 3;
 
-async function searchNaver(query: string) {
+async function searchMultipleNaver(query: string, display = 10) {
   try {
     const res = await fetch(
       `https://openapi.naver.com/v1/search/local.json?query=${encodeURIComponent(
         query
-      )}&display=1`,
+      )}&display=${display}`,
       {
         headers: {
           "X-Naver-Client-Id": process.env.NAVER_CLIENT_ID!,
@@ -21,19 +20,30 @@ async function searchNaver(query: string) {
         },
       }
     );
-    if (!res.ok) return null;
+    if (!res.ok) return [];
     const data = await res.json();
-    return data.items?.[0] ?? null;
+    return data.items || [];
   } catch {
-    return null;
+    return [];
   }
 }
 
 function extractRegionFromMessage(message: string | undefined): string | null {
   if (!message) return null;
+
+  // 1. 구 이름 직접 매칭 (예: "강남구", "마포")
   for (const region of Object.keys(famousgu)) {
     if (message.includes(region)) return region;
   }
+
+  // 2. hotspot 매칭 (예: "홍대", "신촌", "명동")
+  for (const [region, hotspots] of Object.entries(famousgu)) {
+    const hotspotList = hotspots.split(", ");
+    for (const hotspot of hotspotList) {
+      if (message.includes(hotspot)) return region;
+    }
+  }
+
   return null;
 }
 
@@ -81,8 +91,35 @@ export async function POST(req: Request) {
       ? targetRegion
       : `${targetRegion}구`;
 
+    // 먼저 실제 장소들을 검색
+    const [cafes, restaurants, attractions, shopping] = await Promise.all([
+      searchMultipleNaver(`${district} 카페`, 8),
+      searchMultipleNaver(`${district} 맛집`, 8),
+      searchMultipleNaver(`${district} 명소`, 8),
+      searchMultipleNaver(`${district} 관광`, 5),
+    ]);
+
+    const allPlaces = [...cafes, ...restaurants, ...attractions, ...shopping];
+
+    if (allPlaces.length === 0) {
+      return NextResponse.json(
+        { error: `${district}에서 장소를 찾을 수 없습니다.` },
+        { status: 404 }
+      );
+    }
+
+    // 실제 검색된 장소 정보를 포맷팅
+    const placeList = allPlaces
+      .map(
+        (p: any, idx: number) =>
+          `${idx + 1}. ${p.title?.replace(/<[^>]*>/g, "") || "제목 없음"} - ${
+            p.category || "카테고리 없음"
+          } (주소: ${p.address || p.roadAddress || "주소 없음"})`
+      )
+      .join("\n");
+
     const systemPrompt = `
-너는 서울 여행 전문 도슨트야. 사용자의 요청에 따라 "${district}" 인근(같은 구 또는 인접 구)의 실제 장소로만 구성된 하루 여행 코스를 만들어줘.
+너는 서울 여행 전문 도슨트야. 사용자의 요청에 따라 "${district}" 인근의 실제 장소로만 구성된 하루 여행 코스를 만들어줘.
 
 입력:
 - 사용자 요청: "${message}"
@@ -92,10 +129,16 @@ export async function POST(req: Request) {
 - 시간: ${time || "정보 없음"}
 - 날씨: ${weather || "정보 없음"}
 
+**중요: 아래 실제 검색된 장소 목록에서만 선택해서 코스를 구성해야 해:**
+
+${placeList}
+
 원칙:
-1) 반드시 "${district}" 또는 인접(${areaHint})의 실제 장소명만 사용.
-2) 시간 순으로 3~5개 장소, 총 소요 4~6시간.
-3) JSON만 반환. 코드블록 금지.
+1) **반드시 위 목록에 있는 실제 장소명만 사용할 것** (목록에 없는 장소를 절대 만들지 마)
+2) 사용자 요청, 시간, 날씨를 고려해서 적합한 3~5개 장소 선택
+3) 시간 순으로 배치, 총 소요 4~6시간
+4) JSON만 반환. 코드블록 금지.
+5) "name" 필드에는 위 목록의 장소명을 정확히 복사해서 사용
 
 형식:
 {
@@ -104,7 +147,7 @@ export async function POST(req: Request) {
   "route": "...",
   "totalDuration": "...",
   "spots": [
-    { "name":"...", "category":"카페|식당|관광지|쇼핑|문화공간", "arriveTime":"", "stayTime":"", "desc":"", "nextMove":"" }
+    { "name":"위 목록의 정확한 장소명", "category":"카페|식당|관광지|쇼핑|문화공간", "arriveTime":"", "stayTime":"", "desc":"", "nextMove":"" }
   ]
 }
 `;
@@ -144,28 +187,39 @@ export async function POST(req: Request) {
       );
     }
 
-    const verifiedSpots = await Promise.all(
-      course.spots.map(async (s: any) => {
-        const name = String(s.name ?? "").trim();
-        if (!name) {
-          return { ...s, address: "주소 정보 없음", link: null };
-        }
-        const item = await searchNaver(name);
-        return {
-          name,
-          category: s.category ?? null,
-          arriveTime: s.arriveTime ?? null,
-          stayTime: s.stayTime ?? null,
-          desc: s.desc ?? null,
-          nextMove: s.nextMove ?? null,
-          address: item?.address ?? "주소 정보 없음",
-          link: item?.link ?? null,
-        };
-      })
-    );
+    // AI가 선택한 장소를 검색된 실제 장소와 매칭
+    const verifiedSpots = course.spots.map((s: any) => {
+      const name = String(s.name ?? "")
+        .trim()
+        .replace(/<[^>]*>/g, "");
+
+      // 검색된 장소 목록에서 매칭 (제목에서 HTML 태그 제거 후 비교)
+      const matchedPlace = allPlaces.find((p: any) => {
+        const cleanTitle = p.title?.replace(/<[^>]*>/g, "").trim();
+        return (
+          cleanTitle === name ||
+          cleanTitle?.includes(name) ||
+          name.includes(cleanTitle)
+        );
+      });
+
+      return {
+        name,
+        category: s.category ?? null,
+        arriveTime: s.arriveTime ?? null,
+        stayTime: s.stayTime ?? null,
+        desc: s.desc ?? null,
+        nextMove: s.nextMove ?? null,
+        address:
+          matchedPlace?.address ||
+          matchedPlace?.roadAddress ||
+          "주소 정보 없음",
+        link: matchedPlace?.link ?? null,
+      };
+    });
 
     const anyValid = verifiedSpots.some(
-      (v) => v.address !== "주소 정보 없음" || v.link
+      (v: any) => v.address !== "주소 정보 없음" || v.link
     );
     if (!anyValid) {
       return NextResponse.json(
@@ -177,7 +231,7 @@ export async function POST(req: Request) {
     const generatedCourse = {
       title: course.title ?? `${district} 하루 코스`,
       vibe: course.vibe ?? "",
-      route: course.route ?? verifiedSpots.map((p) => p.name).join(" → "),
+      route: course.route ?? verifiedSpots.map((p: any) => p.name).join(" → "),
       totalDuration: course.totalDuration ?? "",
       spots: verifiedSpots,
     };

@@ -2,14 +2,12 @@ import { db } from "@/lib/db";
 import { Star, FolderHeart, Route } from "lucide-react";
 import { currentUser } from "@clerk/nextjs/server";
 
-
 import { Course, Stars } from "@/types/prisma";
 
 import BackButton from "@/components/etc/BackButton";
 import CourseCard from "@/components/course/CoureseCard";
 import StarDelete from "@/components/etc/StarDelete";
 import Move from "@/components/etc/Move";
-
 
 export default async function Me() {
   const user = await currentUser();
@@ -27,7 +25,6 @@ export default async function Me() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 py-12 px-6">
       <div className="max-w-5xl mx-auto">
-        {/* 헤더 */}
         <div className="flex items-center justify-between mb-10">
           <div className="flex items-center gap-3">
             <FolderHeart className="w-8 h-8 text-purple-600" />
@@ -36,7 +33,6 @@ export default async function Me() {
           <BackButton />
         </div>
 
-        {/* 빈 상태 */}
         {isEmpty ? (
           <div className="flex flex-col items-center justify-center text-center bg-white/70 backdrop-blur-sm border border-gray-200 rounded-2xl shadow-md p-12">
             <FolderHeart className="w-16 h-16 text-gray-300 mb-4" />
@@ -49,7 +45,6 @@ export default async function Me() {
           </div>
         ) : (
           <div className="space-y-10">
-            {/* 저장된 코스 */}
             {courses.length > 0 && (
               <section>
                 <div className="flex items-center gap-2 mb-4">
@@ -66,7 +61,6 @@ export default async function Me() {
               </section>
             )}
 
-            {/* 저장된 장소 */}
             {stars.length > 0 && (
               <section>
                 <div className="flex items-center gap-2 mb-4">
@@ -100,7 +94,7 @@ export default async function Me() {
                         </div>
                         <Move star={star} />
                       </div>
-                      {/* 하단 구분선 */}
+
                       <div className="h-1 bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400"></div>
                     </li>
                   ))}
