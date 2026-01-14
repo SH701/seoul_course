@@ -19,7 +19,7 @@ export default function Page() {
   return (
     <main className="relative min-h-screen  overflow-hidden">
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-[40%] left-[-10%] sm:top-60 sm:left-10 w-75-[400px] lg:w-120city-30 blur-sm animate-blob">
+        <div className="absolute top-[40%] left-[-10%] sm:top-60 sm:left-10 w-75-[400px] lg:w-120 opacity-30 blur-sm animate-blob">
           <Image
             src="/login/namsan.png"
             alt="남산"

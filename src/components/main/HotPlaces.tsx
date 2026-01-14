@@ -39,8 +39,9 @@ export default function HotPlaces({ gu }: { gu: string }) {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
-        {places.map((place) => (
+        {places.map((place, idx) => (
           <div
+            key={idx}
             className="bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl overflow-hidden p-0 hover:bg-white/20 transition-colors cursor-pointer"
             onClick={() =>
               window.open(
