@@ -50,19 +50,11 @@ export default function RecommendationItem({
 
     if (saved) {
       deleteStar(
-        {
-          placeId: item.placeId,
-          title: item.title,
-          desc: item.desc || null,
-          icon: item.icon,
-          time: item.time,
-          price: item.price || null,
-          address: item.address,
-        } as any,
+        { placeId: item.placeId },
         {
           onSuccess: () => {
             setSaved(false);
-            toast.success("삭제했습니다.");
+            toast.success("저장을 삭제했습니다.");
           },
           onError: () => {
             toast.error("삭제에 실패했습니다.");

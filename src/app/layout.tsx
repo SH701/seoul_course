@@ -24,7 +24,7 @@ export default function RootLayout({
               <SyncUser />
             </SignedIn>
             {children}
-            <Toaster />
+            <Toaster position="bottom-center" />
           </QueryProviders>
         </body>
       </html>

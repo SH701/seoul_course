@@ -1,17 +1,16 @@
-import { Stars } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 
 export function useDeleteStar() {
   return useMutation({
     mutationKey: ["star", "delete"],
-    mutationFn: async (starData: Stars) => {
+    mutationFn: async (data: { placeId: string }) => {
       const res = await fetch("/api/stars", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(starData),
+        body: JSON.stringify(data),
       });
-      const data = await res.json();
-      return data;
+      const result = await res.json();
+      return result;
     },
   });
 }

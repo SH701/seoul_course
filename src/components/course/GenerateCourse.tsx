@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { X, Clock, MapPin, Calendar, LogIn, Lock } from "lucide-react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
@@ -10,21 +10,29 @@ import { useGuest } from "@/hooks/queries";
 interface GenerateCourseProps {
   isOpen: boolean;
   onClose: () => void;
+  initialCourse?: Object;
 }
 
 export default function GenerateCourse({
   isOpen,
   onClose,
+  initialCourse,
 }: GenerateCourseProps) {
   const [message, setMessage] = useState("");
   const [location, setLocation] = useState("");
-  const [course, setCourse] = useState<any | null>(null);
+  const [course, setCourse] = useState<any | null>(initialCourse || null);
   const router = useRouter();
 
   const { data: guestData, refetch: refetchGuest } = useGuest(isOpen);
   const guestRemaining = guestData?.guestRemaining ?? null;
   const { mutateAsync: generateCourse, isPending: isGenerating } = useCourse();
   const { mutateAsync: saveCourse, isPending: isSaving } = useSaveCourse();
+
+  useEffect(() => {
+    if (initialCourse) {
+      setCourse(initialCourse);
+    }
+  }, [initialCourse]);
 
   const handleGenerate = async () => {
     if (!message.trim()) return;
@@ -237,7 +245,7 @@ export default function GenerateCourse({
               </div>
             </div>
           )}
-          {course && (
+          {course && !initialCourse && (
             <button
               className="w-full py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition font-medium"
               onClick={handleSave}

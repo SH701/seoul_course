@@ -1,18 +1,17 @@
-import { Stars } from "@/types/prisma";
-import { StarDelete, MoveNaver } from "@/components/ui/button";
+import { Stars } from "@/types";
 
+import StarDelete from "./StarDelete";
+import MoveNaver from "./MoveNaver";
 interface StarItemProps {
   star: Stars;
 }
 
 export default function StarItem({ star }: StarItemProps) {
   return (
-    <li className="group bg-white border border-gray-100 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+    <li className=" bg-white border border-gray-100 rounded-2xl shadow-md  overflow-hidden">
       <div className="p-5">
         <div className="flex items-center justify-between mb-2">
-          <h3 className="text-lg font-bold text-gray-900 group-hover:text-purple-600 transition">
-            {star.title}
-          </h3>
+          <h3 className="text-lg font-bold text-gray-900 ">{star.title}</h3>
           <StarDelete placeId={star.placeId} />
         </div>
         <div className="flex flex-col ">

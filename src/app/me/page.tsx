@@ -3,8 +3,8 @@ import { FolderHeart } from "lucide-react";
 import { currentUser } from "@clerk/nextjs/server";
 import { Course, Stars } from "@/types";
 
-import { BackButton } from "@/components/ui/button";
 import { MyStar, MyCourse } from "@/components/me";
+import { BackButton } from "@/components/etc";
 
 export default async function Me() {
   const user = await currentUser();

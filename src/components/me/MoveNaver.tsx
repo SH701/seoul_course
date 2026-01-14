@@ -27,7 +27,7 @@ export default function MoveNaver({ star }: MoveProps) {
     <button
       type="button"
       onClick={handleMapMove}
-      className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-800 transition-colors"
+      className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-800 transition-colors cursor-pointer"
       aria-label={`${star.title} 네이버 지도로 이동`}
     >
       <ExternalLink className="w-4 h-4" />
