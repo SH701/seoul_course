@@ -9,24 +9,6 @@ interface Place {
   tag: string;
 }
 
-function PlaceCard({ place }: { place: Place }) {
-  return (
-    <div className="bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl overflow-hidden p-0 hover:bg-white/20 transition-colors cursor-pointer">
-      <div className="p-4 sm:p-5 lg:p-6">
-        <div className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 sm:mb-3">
-          #{place.rank}
-        </div>
-        <div className="text-base sm:text-lg font-semibold mb-1 sm:mb-2 line-clamp-1">
-          {place.name}
-        </div>
-        <div className="text-xs sm:text-sm text-white/80 line-clamp-1">
-          {place.tag}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function HotPlaces({ gu }: { gu: string }) {
   const { data, isLoading, error } = useHotPlaces(gu);
 
@@ -58,7 +40,27 @@ export default function HotPlaces({ gu }: { gu: string }) {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
         {places.map((place) => (
-          <PlaceCard key={place.rank} place={place} />
+          <div
+            className="bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl overflow-hidden p-0 hover:bg-white/20 transition-colors cursor-pointer"
+            onClick={() =>
+              window.open(
+                `https://map.naver.com/v5/search/${gu + " " + place.name}`,
+                "_blank"
+              )
+            }
+          >
+            <div className="p-4 sm:p-5 lg:p-6">
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 sm:mb-3">
+                #{place.rank}
+              </div>
+              <div className="text-base sm:text-lg font-semibold mb-1 sm:mb-2 line-clamp-1">
+                {place.name}
+              </div>
+              <div className="text-xs sm:text-sm text-white/80 line-clamp-1">
+                {place.tag}
+              </div>
+            </div>
+          </div>
         ))}
       </div>
     </>
