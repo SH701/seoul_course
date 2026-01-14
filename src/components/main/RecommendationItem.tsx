@@ -10,7 +10,8 @@ import {
   Utensils,
   Star,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const iconMap: Record<string, any> = {
   Coffee,
@@ -33,6 +34,17 @@ export default function RecommendationItem({
 
   const isLoading = isAddingPending || isDeletingPending;
 
+  useEffect(() => {
+    checkStar(
+      { placeId: item.placeId },
+      {
+        onSuccess: (isSaved) => {
+          setSaved(isSaved);
+        },
+      }
+    );
+  }, [item.placeId, checkStar]);
+
   const save = (e: React.MouseEvent) => {
     e.stopPropagation();
 
@@ -48,7 +60,13 @@ export default function RecommendationItem({
           address: item.address,
         } as any,
         {
-          onSuccess: () => setSaved(false),
+          onSuccess: () => {
+            setSaved(false);
+            toast.success("삭제했습니다.");
+          },
+          onError: () => {
+            toast.error("삭제에 실패했습니다.");
+          },
         }
       );
     } else {
@@ -63,13 +81,19 @@ export default function RecommendationItem({
           address: item.address,
         } as any,
         {
-          onSuccess: () => setSaved(true),
+          onSuccess: () => {
+            setSaved(true);
+            toast.success("저장에 성공했습니다.");
+          },
+          onError: () => {
+            toast.error("저장에 실패했습니다.");
+          },
         }
       );
     }
   };
   return (
-    <div className="group flex items-center gap-6 sm:p-6 px-3 py-2 rounded-2xl border-2 border-purple-300  relative">
+    <div className="group flex items-center gap-6 sm:p-6 px-3 py-2 rounded-2xl border border-gray-400  relative">
       <div
         className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0"
         style={{ backgroundColor: `${color}20` }}

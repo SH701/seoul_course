@@ -32,7 +32,12 @@ export default function Sidebar({ isMobile = false }: SidebarProps) {
   );
 
   const handleGuClick = (gu: (typeof guData)[number]) => {
-    setSelectedGu(gu);
+    if (selectedGu?.id === gu.id) {
+      setSelectedGu(null);
+    } else {
+      setSelectedGu(gu);
+    }
+
     if (isMobile) {
       setIsSidebarOpen(false);
     }

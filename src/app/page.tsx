@@ -1,13 +1,20 @@
 "use client";
 
-import { SignInButton, SignUpButton, SignedOut } from "@clerk/nextjs";
+import { SignInButton, SignUpButton, SignedOut, useAuth } from "@clerk/nextjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { MapPin } from "lucide-react";
 import Image from "next/image";
+import { useEffect } from "react";
 
 export default function Page() {
   const router = useRouter();
+  const { isSignedIn, isLoaded } = useAuth();
+  useEffect(() => {
+    if (isLoaded && isSignedIn) {
+      router.push("/main");
+    }
+  }, [isLoaded, isSignedIn, router]);
 
   return (
     <main className="relative min-h-screen  overflow-hidden">
@@ -52,12 +59,12 @@ export default function Page() {
 
         <div className="flex items-center gap-3 z-50">
           <SignedOut>
-            <SignInButton mode="modal">
+            <SignInButton mode="modal" forceRedirectUrl="/main">
               <button className="px-4 sm:px-5 py-2 rounded-full font-semibold text-sm sm:text-base bg-white text-gray-900 shadow-md hover:bg-gray-100 transition">
                 로그인
               </button>
             </SignInButton>
-            <SignUpButton mode="modal">
+            <SignUpButton mode="modal" forceRedirectUrl="/main">
               <button className="px-4 sm:px-5 py-2 rounded-full font-semibold text-sm sm:text-base bg-white text-gray-900 shadow-md hover:bg-gray-100 transition">
                 회원가입
               </button>

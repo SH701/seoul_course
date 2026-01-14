@@ -75,7 +75,7 @@ export default function GenerateCourse({
       <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-auto shadow-2xl">
         {!course && (
           <div className="p-6 space-y-4">
-            <div className="top-0 bg-white  px-6 py-4 flex items-center justify-between rounded-t-2xl">
+            <div className="top-0 bg-white    flex items-center justify-between rounded-t-2xl">
               <div>
                 <h2 className="text-xl font-bold text-gray-900">
                   ✨ AI 하루 코스 생성기
@@ -94,7 +94,7 @@ export default function GenerateCourse({
               </div>
               <button
                 onClick={onClose}
-                className="text-gray-400 hover:text-gray-600 transition"
+                className="text-gray-400 hover:text-gray-600 transition cursor-pointer"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -138,7 +138,13 @@ export default function GenerateCourse({
         )}
         <div className="px-6 pb-6 space-y-4">
           {course && (
-            <div className="mt-6 space-y-4">
+            <div className="mt-6 space-y-4 relative">
+              <button
+                onClick={onClose}
+                className="text-gray-400 hover:text-gray-600 transition cursor-pointer absolute right-4 top-4"
+              >
+                <X className="w-6 h-6" />
+              </button>
               <div className="rounded-xl p-6 text-black bg-purple-50">
                 <h3 className="text-2xl font-bold">{course.title}</h3>
                 <p className="text-purple-500 mt-2">{course.vibe}</p>

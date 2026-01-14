@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { MessageCircle, ArrowUp } from "lucide-react";
+import { MessageCircle, ArrowUp, Bot, X } from "lucide-react";
 
 import { useChat } from "@/hooks/mutation";
 
@@ -76,13 +76,12 @@ export default function ChatWidget() {
         />
       )}
 
-      {/* 채팅창 */}
       {isOpen && (
         <div className="fixed bottom-24 right-4 left-4 h-[65vh] sm:inset-auto sm:bottom-32 sm:right-16 sm:w-100 sm:h-150 bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col z-50">
           <div className="flex items-center justify-between p-4 border-b border-gray-200">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12  rounded-xl flex items-center justify-center">
-                <MessageCircle className="w-5 h-5 text-white" />
+                <Bot className="w-8 h-8 text-purple-500" />
               </div>
               <div>
                 <h3 className="font-bold text-base sm:text-lg text-gray-900">
@@ -95,21 +94,9 @@ export default function ChatWidget() {
             </div>
             <button
               onClick={() => setIsOpen(false)}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
             >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              <X />
             </button>
           </div>
 

@@ -145,7 +145,7 @@ ${placeList}
   "route": "...",
   "totalDuration": "...",
   "spots": [
-    { "name":"위 목록의 정확한 장소명", "category":"카페|식당|관광지|쇼핑|문화공간", "arriveTime":"", "stayTime":"", "desc":"", "nextMove":"" }
+    { "name":"위 목록의 정확한 장소명", "category":"카페|식당|관광지|쇼핑|문화공간|주점|", "arriveTime":"", "stayTime":"", "desc":"", "nextMove":"" }
   ]
 }
 `;

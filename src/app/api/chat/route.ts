@@ -3,6 +3,12 @@ import OpenAI from "openai";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
+const prompt = `
+너는 서울을 잘 아는 친구야.
+사용자와 친근하게 대화하고, 다정하게 추천해줘.
+추천할 땐 카페, 맛집, 감성 코스를 중심으로 제안해.
+`;
+
 async function searchNaver(query: string, display = 5) {
   try {
     const res = await fetch(
@@ -25,7 +31,7 @@ async function searchNaver(query: string, display = 5) {
 
 export async function POST(req: Request) {
   try {
-    const { message, personaId } = await req.json();
+    const { message } = await req.json();
 
     const keywordRes = await openai.chat.completions.create({
       model: "gpt-4o-mini",

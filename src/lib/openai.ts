@@ -134,7 +134,23 @@ JSON 형식으로 반환:
     const content = res.choices[0].message.content || "{}";
     const parsed: RecommendationResponse = JSON.parse(content);
 
-    return parsed.recommendations || [];
+    const allPlaces = [...cafes, ...restaurants, ...attractions];
+
+    const enrichedRecommendations = (parsed.recommendations || []).map((rec) => {
+      const matchedPlace = allPlaces.find(
+        (p) => p.name.toLowerCase() === rec.title.toLowerCase() ||
+               rec.title.toLowerCase().includes(p.name.toLowerCase()) ||
+               p.name.toLowerCase().includes(rec.title.toLowerCase())
+      );
+
+      return {
+        ...rec,
+        placeId: matchedPlace ? `${name}_${matchedPlace.name}` : `${name}_${rec.title}`,
+        address: matchedPlace?.address || `${name}`,
+      };
+    });
+
+    return enrichedRecommendations;
   } catch (error) {
     console.error("Failed to generate recommendations:", error);
     return [];

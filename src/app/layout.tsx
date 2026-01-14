@@ -3,6 +3,7 @@ import "./globals.css";
 import { ClerkProvider, SignedIn } from "@clerk/nextjs";
 import { SyncUser } from "@/components/etc";
 import { QueryProviders } from "./providers";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "SeoulCourse",
@@ -23,6 +24,7 @@ export default function RootLayout({
               <SyncUser />
             </SignedIn>
             {children}
+            <Toaster />
           </QueryProviders>
         </body>
       </html>
