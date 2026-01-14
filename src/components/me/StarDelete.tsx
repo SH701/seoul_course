@@ -2,19 +2,16 @@
 
 import { useDeleteStar } from "@/hooks/mutation";
 import { Trash2 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 export default function StarDelete({ placeId }: { placeId: string }) {
   const { mutate: deleteStar, isPending } = useDeleteStar();
-  const router = useRouter();
   const handleDelete = () => {
     deleteStar(
       { placeId },
       {
         onSuccess: () => {
           toast.success("저장 목록에서 삭제했습니다.");
-          router.refresh();
         },
         onError: () => {
           toast.error("삭제에 실패했습니다.");

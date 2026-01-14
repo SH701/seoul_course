@@ -1,6 +1,7 @@
 "use client";
 
-import { useDeleteStar, useCheckStar, useAddStar } from "@/hooks/mutation";
+import { useDeleteStar, useAddStar } from "@/hooks/mutation";
+import { useCheckStar } from "@/hooks/queries";
 import { RecommendationItemProps } from "@/types";
 import {
   Coffee,
@@ -28,22 +29,17 @@ export default function RecommendationItem({
   const IconComponent = iconMap[item.icon] || Coffee;
   const [saved, setSaved] = useState(false);
 
-  const { mutate: checkStar } = useCheckStar();
+  const { data: checkStar } = useCheckStar(item.placeId);
   const { mutate: addStar, isPending: isAddingPending } = useAddStar();
   const { mutate: deleteStar, isPending: isDeletingPending } = useDeleteStar();
 
   const isLoading = isAddingPending || isDeletingPending;
 
   useEffect(() => {
-    checkStar(
-      { placeId: item.placeId },
-      {
-        onSuccess: (isSaved) => {
-          setSaved(isSaved);
-        },
-      }
-    );
-  }, [item.placeId, checkStar]);
+    if (checkStar?.saved !== undefined) {
+      setSaved(checkStar.saved);
+    }
+  }, [checkStar]);
 
   const save = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -53,7 +49,6 @@ export default function RecommendationItem({
         { placeId: item.placeId },
         {
           onSuccess: () => {
-            setSaved(false);
             toast.success("저장을 삭제했습니다.");
           },
           onError: () => {
@@ -74,7 +69,6 @@ export default function RecommendationItem({
         } as any,
         {
           onSuccess: () => {
-            setSaved(true);
             toast.success("저장에 성공했습니다.");
           },
           onError: () => {

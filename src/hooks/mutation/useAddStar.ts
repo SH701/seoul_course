@@ -1,7 +1,8 @@
 import { Stars } from "@/types";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useAddStar() {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["star", "add"],
     mutationFn: async (starData: Stars) => {
@@ -12,6 +13,9 @@ export function useAddStar() {
       });
       const data = await res.json();
       return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["stars"] });
     },
   });
 }

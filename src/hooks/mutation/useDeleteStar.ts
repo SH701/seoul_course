@@ -1,8 +1,9 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useDeleteStar() {
+  const queryClient = useQueryClient();
   return useMutation({
-    mutationKey: ["star", "delete"],
+    mutationKey: ["star"],
     mutationFn: async (data: { placeId: string }) => {
       const res = await fetch("/api/stars", {
         method: "DELETE",
@@ -11,6 +12,9 @@ export function useDeleteStar() {
       });
       const result = await res.json();
       return result;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["stars"] });
     },
   });
 }
