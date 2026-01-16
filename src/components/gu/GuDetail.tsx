@@ -3,10 +3,11 @@
 import { MapPin, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { BackButton } from "@/components/common";
-import { Key, useState } from "react";
+import { useState } from "react";
 import { useGuRecommendations } from "@/hooks/queries";
 import MainRecommendation from "./recommend/MainRecommend";
 import SubRecommendationCard from "./recommend/SubRecommend";
+import { NaverPlace } from "@/types";
 
 type CategoryType = "cafe" | "restaurant" | "attraction";
 
@@ -105,7 +106,7 @@ export default function GuDetail({ id, guName }: GuDetailClientProps) {
         <MainRecommendation place={main} />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {sub.map((place: unknown, i: Key | null | undefined) => (
+          {sub.map((place: NaverPlace, i: number) => (
             <SubRecommendationCard key={i} place={place} />
           ))}
         </div>

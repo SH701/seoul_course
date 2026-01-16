@@ -1,12 +1,56 @@
+"use client";
+
+import { useState, useTransition } from "react";
 import Image from "next/image";
 import { PostDate, DeletePost } from "@/components/post";
+import { likePost, dislikePost } from "@/app/post/[id]/actions";
+import { Post } from "@/types";
+import { Heart } from "lucide-react";
+import { toast } from "sonner";
 
-interface PostContentProps {
-  post: any;
-  likeCount: number;
+interface PostContentUser {
+  photo: string | null;
+  username: string | null;
+  nickname: string | null;
+  email: string | null;
 }
 
-export default function PostContent({ post, likeCount }: PostContentProps) {
+interface PostContentProps {
+  post: Post & { user: PostContentUser; Like: { userId: string }[] };
+  likeCount: number;
+  currentUserId?: string | null;
+}
+
+export default function PostContent({
+  post,
+  likeCount: initialLikeCount,
+  currentUserId,
+}: PostContentProps) {
+  const [isPending, startTransition] = useTransition();
+  const [isLiked, setIsLiked] = useState(
+    currentUserId
+      ? post.Like.some((like) => like.userId === currentUserId)
+      : false
+  );
+  const [likeCount, setLikeCount] = useState(initialLikeCount);
+
+  const handleLike = () => {
+    startTransition(async () => {
+      try {
+        if (isLiked) {
+          await dislikePost(post.id);
+          setIsLiked(false);
+          setLikeCount((prev) => prev - 1);
+        } else {
+          await likePost(post.id);
+          setIsLiked(true);
+          setLikeCount((prev) => prev + 1);
+        }
+      } catch {
+        toast.error("좋아요 처리에 실패했습니다.");
+      }
+    });
+  };
   return (
     <div className="bg-white shadow-md rounded-xl p-6 mb-8 border border-gray-100">
       <div className="flex items-center gap-3 mb-4">
@@ -50,10 +94,16 @@ export default function PostContent({ post, likeCount }: PostContentProps) {
       )}
 
       <div className="mt-6">
-        <div className="rounded-lg text-sm font-medium transition flex flex-row gap-1">
-          <p>❤️</p>
-          {likeCount}
-        </div>
+        <button
+          onClick={handleLike}
+          disabled={isPending}
+          className="rounded-lg text-sm font-medium transition flex flex-row gap-1 items-center hover:opacity-70 disabled:opacity-50"
+        >
+          <Heart
+            className={isLiked ? "fill-red-500 text-red-500" : "text-gray-400"}
+          />
+          <p>{likeCount}</p>
+        </button>
       </div>
     </div>
   );

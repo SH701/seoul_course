@@ -3,6 +3,8 @@
 import { deletePost } from "@/app/post/actions";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
+import { Toaster } from "../ui/sonner";
+import { toast } from "sonner";
 
 interface Props {
   postId: number;
@@ -16,22 +18,21 @@ export default function DeletePost({ postId, authorId }: Props) {
   if (!user || user.id !== authorId) return null;
 
   async function handleDelete() {
-    if (!confirm("정말 삭제하시겠습니까?")) return;
     const res = await deletePost(postId);
     if (res.success) {
-      alert("삭제되었습니다.");
+      toast.success("게시글이 삭제되었습니다.");
       router.push("/post");
     } else {
-      alert(res.error);
+      toast.error("게시글이 삭제에 실패했습니다.");
     }
   }
 
   return (
     <button
       onClick={handleDelete}
-      className="ml-auto text-sm text-red-500 hover:text-red-700 font-semibold transition"
+      className="ml-auto text-sm text-red-500 hover:text-red-700 font-semibold transition cursor-pointer"
     >
-      삭제
+      삭제하기
     </button>
   );
 }

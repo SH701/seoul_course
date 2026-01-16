@@ -6,19 +6,9 @@ import { useRouter } from "next/navigation";
 import GenerateCourse from "../course/GenerateCourse";
 import { useDeleteCourse } from "@/hooks/mutation/useDeleteCourse";
 import { toast } from "sonner";
+import { Course } from "@/types";
 
-interface CourseItemProps {
-  course: {
-    id: string;
-    title: string;
-    vibe: string | null;
-    spots: any;
-    created_at: Date;
-    route: string | null | undefined;
-  };
-}
-
-export default function CourseItem({ course }: CourseItemProps) {
+export default function CourseItem({ course }: { course: Course }) {
   const router = useRouter();
   const { mutate: deleteCourse, isPending } = useDeleteCourse();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -72,7 +62,7 @@ export default function CourseItem({ course }: CourseItemProps) {
                 <span className="truncate">
                   {course.spots
                     .slice(0, 3)
-                    .map((s: any) => s.name)
+                    .map((s) => s.name)
                     .join(" → ")}
                   {course.spots.length > 3 && " ..."}
                 </span>

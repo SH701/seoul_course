@@ -1,11 +1,11 @@
+import { CommentWithUser } from "@/types";
 import CommentItem from "./CommentItem";
 
 interface CommentListProps {
-  comments: any[];
-  postUser: any;
+  comments: CommentWithUser[];
 }
 
-export default function CommentList({ comments, postUser }: CommentListProps) {
+export default function CommentList({ comments }: CommentListProps) {
   if (comments.length === 0) {
     return (
       <div className="space-y-4">
@@ -17,7 +17,7 @@ export default function CommentList({ comments, postUser }: CommentListProps) {
   return (
     <div className="space-y-4">
       {comments.map((comment) => (
-        <CommentItem key={comment.id} comment={comment} postUser={postUser} />
+        <CommentItem key={comment.id} comment={comment} />
       ))}
     </div>
   );

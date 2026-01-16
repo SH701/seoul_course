@@ -1,12 +1,8 @@
 import Image from "next/image";
 import { PostDate } from "@/components/post";
+import { CommentWithUser } from "@/types";
 
-interface CommentItemProps {
-  comment: any;
-  postUser: any;
-}
-
-export default function CommentItem({ comment, postUser }: CommentItemProps) {
+export default function CommentItem({ comment }: { comment: CommentWithUser }) {
   return (
     <div className="flex gap-3 bg-gray-50 p-4 rounded-xl border border-gray-100">
       {comment.user.photo ? (
@@ -23,10 +19,10 @@ export default function CommentItem({ comment, postUser }: CommentItemProps) {
       <div className="flex-1">
         <div className="flex items-center justify-between">
           <p className="font-semibold text-gray-800">
-            {postUser?.username ??
-              postUser?.nickname ??
-              postUser?.email ??
-              null}
+            {comment.user?.username ??
+              comment.user?.nickname ??
+              comment.user?.email ??
+              "익명 사용자"}
           </p>
           <PostDate date={comment.created_at} />
         </div>

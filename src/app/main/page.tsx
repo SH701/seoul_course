@@ -12,6 +12,7 @@ import {
 } from "@/components/main";
 import { useRecommendations, useWeather } from "@/hooks/queries";
 import { useAppStore } from "@/store/useAppStore";
+import { Recommendation } from "@/types";
 
 export default function Home() {
   const { selectedGu, selectedItem, setSelectedItem } = useAppStore();
@@ -21,7 +22,7 @@ export default function Home() {
   );
   const { data: weather } = useWeather(selectedGu?.name || "");
 
-  const handleItemClick = (item: any) => {
+  const handleItemClick = (item: Recommendation) => {
     setSelectedItem(item);
   };
 

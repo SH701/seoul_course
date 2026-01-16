@@ -1,11 +1,12 @@
+import { Spot } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 
 interface SaveCourseParams {
   title: string;
-  vibe: string;
-  route: string;
-  totalDuration: string;
-  spots: any[];
+  vibe?: string | null;
+  route?: string | null;
+  totalDuration?: string | null;
+  spots: Spot[];
 }
 
 export function useSaveCourse() {

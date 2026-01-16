@@ -1,7 +1,12 @@
 import { usePlacePhoto } from "@/hooks/queries";
+import { NaverPlace } from "@/types";
 import { ImageIcon } from "lucide-react";
 
-export default function SubRecommendationCard({ place }: { place: any }) {
+export default function SubRecommendationCard({
+  place,
+}: {
+  place: NaverPlace;
+}) {
   const title = place.title.replace(/<[^>]*>/g, "");
   const { data: photo } = usePlacePhoto(title);
 

@@ -1,18 +1,17 @@
-import { Stars } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useAddStar() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["star", "add"],
-    mutationFn: async (starData: Stars) => {
+    mutationFn: async (data: { placeId: string }) => {
       const res = await fetch("/api/stars", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(starData),
+        body: JSON.stringify(data),
       });
-      const data = await res.json();
-      return data;
+      const result = await res.json();
+      return result;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["stars"] });

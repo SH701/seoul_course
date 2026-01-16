@@ -1,3 +1,5 @@
+import { Spot } from "./course";
+
 export interface User {
   clerkId: string;
   photo: string | null;
@@ -16,7 +18,18 @@ export interface Post {
   updated_at: Date;
   userId: string;
 }
-
+export interface PostWithUser extends Post {
+  user: {
+    clerkId: string;
+    photo: string | null;
+    username: string | null;
+    nickname: string | null;
+    email: string | null;
+  };
+  _count?: {
+    comments: number;
+  };
+}
 export interface Comment {
   id: number;
   comment: string | null;
@@ -24,6 +37,15 @@ export interface Comment {
   updated_at: Date;
   userId: string;
   postId: number;
+}
+
+export interface CommentWithUser extends Comment {
+  user: {
+    username: string | null;
+    nickname?: string | null;
+    email?: string | null;
+    photo: string | null;
+  };
 }
 
 export interface Like {
@@ -53,6 +75,6 @@ export interface Course {
   vibe: string | null;
   route: string | null;
   totalDuration: string | null;
-  spots: any;
+  spots: Spot[];
   created_at: Date;
 }

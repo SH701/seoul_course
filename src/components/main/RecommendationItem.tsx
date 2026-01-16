@@ -60,13 +60,7 @@ export default function RecommendationItem({
       addStar(
         {
           placeId: item.placeId,
-          title: item.title,
-          desc: item.desc || null,
-          icon: item.icon,
-          time: item.time,
-          price: item.price || null,
-          address: item.address,
-        } as any,
+        },
         {
           onSuccess: () => {
             toast.success("저장에 성공했습니다.");

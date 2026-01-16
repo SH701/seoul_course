@@ -1,3 +1,5 @@
+import { NaverPlace } from "@/types";
+
 export async function searchNaverPlaces(keyword: string) {
   const res = await fetch(
     `https://openapi.naver.com/v1/search/local.json?query=${encodeURIComponent(
@@ -15,7 +17,7 @@ export async function searchNaverPlaces(keyword: string) {
     throw new Error("Naver API error");
   }
   const data = await res.json();
-  return data.items.map((item: any) => ({
+  return data.items.map((item: NaverPlace) => ({
     title: item.title.replace(/<[^>]*>/g, ""),
     link: item.link,
     address: item.address,

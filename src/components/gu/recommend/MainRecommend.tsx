@@ -1,7 +1,8 @@
 import { usePlacePhoto } from "@/hooks/queries";
+import { NaverPlace } from "@/types";
 import { Clock, ImageIcon, MapPin } from "lucide-react";
 
-export default function MainRecommendation({ place }: { place: any }) {
+export default function MainRecommendation({ place }: { place: NaverPlace }) {
   const mainTitle = place.title.replace(/<[^>]*>/g, "");
   const { data: mainPhoto } = usePlacePhoto(mainTitle);
 

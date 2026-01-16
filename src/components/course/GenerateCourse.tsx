@@ -6,11 +6,13 @@ import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { useCourse, useSaveCourse } from "@/hooks/mutation";
 import { useGuest } from "@/hooks/queries";
+import { toast } from "sonner";
+import { Courses, Spot } from "@/types";
 
 interface GenerateCourseProps {
   isOpen: boolean;
   onClose: () => void;
-  initialCourse?: Object;
+  initialCourse?: Courses;
 }
 
 export default function GenerateCourse({
@@ -20,7 +22,7 @@ export default function GenerateCourse({
 }: GenerateCourseProps) {
   const [message, setMessage] = useState("");
   const [location, setLocation] = useState("");
-  const [course, setCourse] = useState<any | null>(initialCourse || null);
+  const [course, setCourse] = useState<Courses | null>(initialCourse || null);
   const router = useRouter();
 
   const { data: guestData, refetch: refetchGuest } = useGuest(isOpen);
@@ -47,13 +49,8 @@ export default function GenerateCourse({
       setLocation("");
       setMessage("");
       refetchGuest();
-    } catch (err: any) {
-      console.error(err);
-      if (err.message.includes("401") || err.message.includes("guest_limit")) {
-        refetchGuest();
-      } else {
-        alert("코스 생성에 실패했습니다.");
-      }
+    } catch (err) {
+      toast.error("코스 생성에 실패했습니다.");
     }
   };
 
@@ -68,11 +65,11 @@ export default function GenerateCourse({
         totalDuration: course.totalDuration,
         spots: course.spots,
       });
-      alert("✅ 코스가 저장되었습니다!");
+      toast.success("코스가 저장되었습니다!");
       onClose();
     } catch (err) {
       console.error(err);
-      alert("❌ 저장 중 오류가 발생했습니다.");
+      toast.error("저장 중 오류가 발생했습니다.");
     }
   };
 
@@ -175,7 +172,7 @@ export default function GenerateCourse({
               <div className="relative space-y-6 pl-8">
                 <div className="absolute left-3 top-0 bottom-0 w-0.5 bg-linear-to-b from-purple-400 to-pink-400"></div>
 
-                {course.spots.map((spot: any, i: number) => (
+                {course.spots.map((spot: Spot, i: number) => (
                   <div key={i} className="relative">
                     <div className="absolute -left-7 top-2 w-5 h-5 rounded-full bg-white border-4 border-purple-400 shadow-md"></div>
                     <div className="bg-white rounded-xl p-5 shadow-md hover:shadow-lg transition border border-gray-100 ">

@@ -12,10 +12,10 @@ export default async function Me() {
     where: { userId: user?.id },
     orderBy: { created_at: "desc" },
   });
-  const courses: Course[] = await db.course.findMany({
+  const courses = (await db.course.findMany({
     where: { userId: user?.id },
     orderBy: { created_at: "desc" },
-  });
+  })) as unknown as Course[];
 
   const isEmpty = stars.length === 0 && courses.length === 0;
 

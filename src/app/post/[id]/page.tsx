@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
 import { useParams } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
 
 import {
   getPostDetail,
@@ -11,13 +12,17 @@ import {
   addComment,
 } from "@/app/post/[id]/actions";
 import { CommentForm, PostContent, CommentList } from "@/components/post";
+import { toast } from "sonner";
+type PostDetailData = Awaited<ReturnType<typeof getPostDetail>>;
+type CommentData = Awaited<ReturnType<typeof getComments>>;
 
 export default function PostDetail() {
   const params = useParams();
   const id = params?.id as string;
+  const { user } = useUser();
 
-  const [post, setPost] = useState<any>(null);
-  const [comments, setComments] = useState<any[]>([]);
+  const [post, setPost] = useState<PostDetailData>();
+  const [comments, setComments] = useState<CommentData>([]);
   const [newComment, setNewComment] = useState("");
 
   const [likeCount, setLikeCount] = useState(0);
@@ -53,8 +58,7 @@ export default function PostDetail() {
       setComments(updatedComments);
       setNewComment("");
     } catch (error) {
-      console.error(error);
-      alert("댓글 작성 중 오류 발생");
+      toast.error("댓글 작성에 실패했습니다.");
     }
   }
 
@@ -87,13 +91,13 @@ export default function PostDetail() {
         <h1 className="text-3xl font-bold text-gray-900 mb-1">{post.post}</h1>
       </div>
 
-      <PostContent post={post} likeCount={likeCount} />
+      <PostContent post={post} likeCount={likeCount} currentUserId={user?.id} />
       <CommentForm
         newComment={newComment}
         setNewComment={setNewComment}
         onSubmit={handleAddComment}
       />
-      <CommentList comments={comments} postUser={post.user} />
+      <CommentList comments={comments} />
     </main>
   );
 }

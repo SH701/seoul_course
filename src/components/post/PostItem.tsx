@@ -2,13 +2,10 @@ import Link from "next/link";
 import Image from "next/image";
 import PostDate from "@/components/post/PostDate";
 import PostCount from "./PostCount";
+import { PostWithUser } from "@/types";
 
 interface PostItemProps {
-  post: any & {
-    _count?: {
-      comments: number;
-    };
-  };
+  post: PostWithUser;
   userImageUrl?: string;
 }
 

@@ -2,12 +2,11 @@ export interface Spot {
   name: string;
   desc: string;
   address?: string;
-  arriveTime?: string;
   stayTime?: string;
   category?: string;
-  nextMove?: string;
 }
-export interface Props {
+export interface Courses {
+  totalDuration: string | null | undefined;
   title: string;
   vibe: string | null | undefined;
   route?: string | null | undefined;
