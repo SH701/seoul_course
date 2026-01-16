@@ -1,4 +1,4 @@
-export * from "@/types/ai";
+export * from "@/types/place";
 export * from "@/types/course";
 export * from "@/types/prisma";
-export * from "@/types/recommandation";
+export * from "@/types/recommendation";

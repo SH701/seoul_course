@@ -4,7 +4,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { Course, Stars } from "@/types";
 
 import { MyStar, MyCourse } from "@/components/me";
-import { BackButton } from "@/components/etc";
+import { BackButton } from "@/components/common";
 
 export default async function Me() {
   const user = await currentUser();

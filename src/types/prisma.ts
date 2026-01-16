@@ -1,4 +1,4 @@
-export type User = {
+export interface User {
   clerkId: string;
   photo: string | null;
   username: string | null;
@@ -6,34 +6,34 @@ export type User = {
   email: string | null;
   created_at: Date;
   updated_at: Date;
-};
+}
 
-export type Post = {
+export interface Post {
   id: number;
   post: string;
   photo: string | null;
   created_at: Date;
   updated_at: Date;
   userId: string;
-};
+}
 
-export type Comment = {
+export interface Comment {
   id: number;
   comment: string | null;
   created_at: Date;
   updated_at: Date;
   userId: string;
   postId: number;
-};
+}
 
-export type Like = {
+export interface Like {
   id: number;
   userId: string;
   postId: number;
   created_at: Date;
-};
+}
 
-export type Stars = {
+export interface Stars {
   id: number;
   userId: string;
   placeId: string;
@@ -44,9 +44,9 @@ export type Stars = {
   price: string | null;
   address: string | null;
   created_at: Date;
-};
+}
 
-export type Course = {
+export interface Course {
   id: string;
   userId: string;
   title: string;
@@ -55,4 +55,4 @@ export type Course = {
   totalDuration: string | null;
   spots: any;
   created_at: Date;
-};
+}

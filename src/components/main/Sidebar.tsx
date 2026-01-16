@@ -6,9 +6,9 @@ import { guData } from "@/data/gudata";
 import { useRouter } from "next/navigation";
 import { useAppStore } from "@/store/useAppStore";
 
-type SidebarProps = {
+interface SidebarProps {
   isMobile?: boolean;
-};
+}
 
 export default function Sidebar({ isMobile = false }: SidebarProps) {
   const router = useRouter();

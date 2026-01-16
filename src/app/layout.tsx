@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ClerkProvider, SignedIn } from "@clerk/nextjs";
-import { SyncUser } from "@/components/etc";
+import { SyncUser } from "@/components/common";
 import { QueryProviders } from "./providers";
 import { Toaster } from "@/components/ui/sonner";
 

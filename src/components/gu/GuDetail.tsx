@@ -2,7 +2,7 @@
 
 import { MapPin, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { BackButton } from "@/components/etc";
+import { BackButton } from "@/components/common";
 import { Key, useState } from "react";
 import { useGuRecommendations } from "@/hooks/queries";
 import MainRecommendation from "./recommend/MainRecommend";
